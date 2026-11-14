@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WALKBACK | NASA Space Apps Challenge 2026</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1118;--panel:#141e29;--ink:#f5eee4;--muted:#b8c2cc;--orange:#ff985b;--cyan:#72d7df;--green:#8bd6a3;--line:#314354}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#070b10;color:var(--ink);font:16px/1.45 Inter,Segoe UI,Arial,sans-serif}
+body{display:grid;place-items:center;overflow:hidden}.deck{width:min(100vw,177.78vh);height:min(100vh,56.25vw);position:relative;background:radial-gradient(ellipse at 80% 15%,#523322 0,#1d2228 24%,#0c1118 62%);overflow:hidden;box-shadow:0 20px 90px #0009}
+.slide{position:absolute;inset:0;padding:6.2% 7.2% 7.5%;display:none;grid-template-rows:auto 1fr auto;gap:3.4%;background:linear-gradient(135deg,#111a23ee,#0a1119f5)}
+.slide.active{display:grid}.eyebrow{color:var(--orange);font-size:clamp(11px,1vw,17px);font-weight:750;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:clamp(34px,5.4vw,84px);line-height:.98;letter-spacing:-.045em;margin:.18em 0 .25em;max-width:900px}
+h2{font-size:clamp(26px,3.4vw,54px);line-height:1.02;letter-spacing:-.035em;margin:.18em 0 .25em}
+p{color:var(--muted);font-size:clamp(15px,1.45vw,23px);max-width:860px;margin:.5em 0}
+.kicker{font-size:clamp(15px,1.5vw,24px);color:#e8d7c6;max-width:690px}
+.footer{display:flex;justify-content:space-between;align-items:center;color:#93a0ad;font-size:clamp(10px,.8vw,13px);border-top:1px solid var(--line);padding-top:1.2%}
+.content{align-self:center;display:grid;grid-template-columns:1fr 1fr;gap:5%;align-items:center}.content.single{grid-template-columns:1fr}.card{background:linear-gradient(145deg,#1a2935,#111b25);border:1px solid #344756;border-radius:16px;padding:5%}.card h3{font-size:clamp(16px,1.7vw,26px);margin:0 0 .45em;color:#fff}.card p{font-size:clamp(13px,1.2vw,19px);margin:.35em 0}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:2%}.metric{padding:8% 6%;border:1px solid var(--line);border-radius:16px;background:#14212c}.metric strong{display:block;font-size:clamp(30px,4vw,64px);color:var(--orange);letter-spacing:-.05em}.metric span{font-size:clamp(11px,1vw,16px);color:var(--muted)}
+.pill{display:inline-block;border:1px solid #526575;padding:.35em .75em;border-radius:99px;color:#c9d5df;font-size:clamp(11px,.95vw,15px);margin:.25em .3em .25em 0}
+.diagram{width:100%;height:auto;max-height:53vh}.list{display:grid;gap:12px}.item{display:grid;grid-template-columns:10px 1fr;gap:14px;align-items:start}.dot{width:9px;height:9px;border-radius:50%;background:var(--orange);margin-top:.55em}.item b{color:#fff}.item span{color:var(--muted)}
+.label{color:var(--cyan);font-weight:700}.warn{color:#ffc28d}.good{color:var(--green)}
+.controls{position:absolute;bottom:1.3%;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;z-index:5}.controls button{background:#16232e;border:1px solid #3b5365;color:#fff;border-radius:99px;padding:8px 14px;cursor:pointer}.controls button:hover{border-color:var(--orange)}.counter{font-size:12px;color:#b5c0ca;min-width:42px;text-align:center}
+.big-q{font-size:clamp(44px,6vw,94px);font-weight:850;line-height:.98;letter-spacing:-.06em;color:#fff}.subline{font-size:clamp(16px,1.6vw,25px);color:var(--muted);max-width:690px}
+@media(max-aspect-ratio:4/3){.content{grid-template-columns:1fr;gap:2%}.slide{padding:5% 6% 10%}.diagram{max-height:30vh}.card{padding:3%}}
+</style>
+</head>
+<body>
+<main class="deck" aria-label="WALKBACK seven-slide presentation">
+<section class="slide active">
+  <div><div class="eyebrow">NASA Space Apps Challenge 2026 · Map of Mars</div></div>
+  <div style="align-self:center">
+    <div class="big-q">Can you get<br>back in time?</div>
+    <h1 style="font-size:clamp(24px,3vw,46px);color:var(--orange);margin-top:.4em">WALKBACK</h1>
+    <p class="subline">A layered traverse-planning prototype for human exploration around Jezero Crater.</p>
+    <div style="margin-top:2em"><span class="pill">NASA/JPL Perseverance waypoints</span><span class="pill">Two reachability envelopes</span><span class="pill">Interactive 3D</span></div>
+  </div>
+  <div class="footer"><span>Jezero Crater · Mars</span><span>01 / 07</span></div>
+</section>
+<section class="slide">
+  <div><div class="eyebrow">01 · The challenge</div><h2>Planning a walk is more than drawing a line.</h2></div>
+  <div class="content">
+    <div class="list">
+      <div class="item"><i class="dot"></i><div><b>Safety</b><br><span>Can the crew return with the resources they have?</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Efficiency</b><br><span>How do slope and terrain change travel time?</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Science</b><br><span>Which sites of geological interest fit inside a safe traverse?</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Communications</b><br><span>Can the explorer maintain line of sight to a relay?</span></div></div>
+    </div>
+    <div class="card"><h3>Why Jezero?</h3><p>An ancient river-and-lake environment with a real rover traverse that can anchor a first-pass comparison.</p><p class="label">A place to ask a scientific question and test a planning idea.</p></div>
+  </div>
+  <div class="footer"><span>Safety · Efficiency · Scientific return</span><span>02 / 07</span></div>
+</section>
+<section class="slide">
+  <div><div class="eyebrow">02 · The prototype</div><h2>One scene. Several planning layers.</h2></div>
+  <div class="content">
+    <svg class="diagram" viewBox="0 0 620 390" role="img" aria-label="Conceptual map of Jezero with proposed route and rover route">
+      <defs><radialGradient id="cr"><stop stop-color="#8e5e42"/><stop offset=".72" stop-color="#61412f"/><stop offset="1" stop-color="#2a3034"/></radialGradient></defs>
+      <ellipse cx="305" cy="190" rx="270" ry="165" fill="url(#cr)" stroke="#c18a61" stroke-width="2"/>
+      <path d="M92 202 Q170 130 218 171 T337 172 T515 210" stroke="#8bd6a3" stroke-width="5" fill="none" stroke-dasharray="7 7"/>
+      <path d="M102 245 Q190 228 239 190 T345 164 T496 128" stroke="#ffb36e" stroke-width="4" fill="none"/>
+      <g fill="#f1e2cf" font-size="15" font-family="Arial"><text x="75" y="285">Base</text><text x="205" y="130">Delta front</text><text x="318" y="120">Science stops</text><text x="448" y="100">Crater rim</text></g>
+      <g fill="#ffb36e"><circle cx="102" cy="245" r="7"/><circle cx="239" cy="190" r="7"/><circle cx="345" cy="164" r="7"/><circle cx="496" cy="128" r="7"/></g>
+      <g fill="#8bd6a3"><circle cx="92" cy="202" r="5"/><circle cx="218" cy="171" r="5"/><circle cx="337" cy="172" r="5"/><circle cx="515" cy="210" r="5"/></g>
+      <text x="30" y="365" fill="#ffb36e" font-size="14">Orange: proposed stop-to-stop path</text><text x="335" y="365" fill="#8bd6a3" font-size="14">Green: rover traverse concept</text>
+    </svg>
+    <div class="list">
+      <div class="item"><i class="dot"></i><div><b>3D Jezero scene</b><br><span>Rover traverse and proposed route between science stops.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Reachability controls</b><br><span>Consumables, speed, safety margin and warning interval.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Exploration tools</b><br><span>First-person mode, elevation profile, slope and radio visibility.</span></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>Interactive browser prototype</span><span>03 / 07</span></div>
+</section>
+<section class="slide">
+  <div><div class="eyebrow">03 · The core idea</div><h2>Two envelopes. Two different questions.</h2></div>
+  <div class="content">
+    <div class="card" style="border-color:#3e7390"><h3 style="color:#83d8ff">BLUE · Walk-back</h3><p>How far can an explorer travel and still return on the remaining consumables?</p><p><span class="label">Inputs:</span> consumable time, flat-ground speed, safety margin.</p></div>
+    <div class="card" style="border-color:#53896a"><h3 style="color:#9be0aa">GREEN · Shelter reach</h3><p>From which locations can the selected shelter be reached within the configured warning interval?</p><p><span class="label">Input:</span> configurable warning window.</p></div>
+  </div>
+  <div class="footer"><span>Travel-time estimates propagated across a derived grid</span><span>04 / 07</span></div>
+</section>
+<section class="slide">
+  <div><div class="eyebrow">04 · Data and uncertainty</div><h2>Show the evidence. Show the limits.</h2></div>
+  <div class="content">
+    <div class="card"><h3>Embedded mission data</h3><p style="font-size:clamp(27px,3.2vw,50px);color:var(--orange);font-weight:800">698</p><p>NASA/JPL Mars 2020 Perseverance waypoint records, Sol 13–2022, with position, elevation and odometer fields.</p></div>
+    <div class="list">
+      <div class="item"><i class="dot"></i><div><b>Terrain</b><br><span>Procedural beyond the rover corridor; approx. 200–215 m grid.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Walking model</b><br><span>Tobler-inspired; not adjusted for 0.38 g or suit physiology.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Solar and radiation</b><br><span>No live solar forecast or local radiation-dose simulation.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Interpretation</b><br><span>Exploratory prototype, not a certified EVA safety system.</span></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>NASA/JPL waypoint data · derived model outputs</span><span>05 / 07</span></div>
+</section>
+<section class="slide">
+  <div><div class="eyebrow">05 · Route comparison</div><h2>The rover's science route is not a human shortcut.</h2></div>
+  <div class="content single">
+    <div class="metrics">
+      <div class="metric"><strong>12.2 km</strong><span>Proposed straight-line connection between selected anchors</span></div>
+      <div class="metric"><strong>32.3 km</strong><span>Perseverance odometer across the corresponding traverse segments</span></div>
+      <div class="metric"><strong>+784 m</strong><span>Approximate cumulative positive elevation gain</span></div>
+    </div>
+    <p class="warn">These are route-comparison metrics from the embedded waypoint records. They do not prove that the proposed line is traversable or safe for a human crew.</p>
+  </div>
+  <div class="footer"><span>Comparison of selected site anchors</span><span>06 / 07</span></div>
+</section>
+<section class="slide">
+  <div><div class="eyebrow">06 · Next steps</div><h2>From a prototype to a mission-grade model.</h2></div>
+  <div class="content">
+    <div class="list">
+      <div class="item"><i class="dot"></i><div><b>Real terrain</b><br><span>Replace procedural terrain with a validated Jezero DEM.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>More data layers</b><br><span>Integrate mineralogy, geology, soil, illumination and radiation sources.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Physical validation</b><br><span>Calibrate walking costs for 0.38 g and validated suit/EVA parameters.</span></div></div>
+      <div class="item"><i class="dot"></i><div><b>Broader applications</b><br><span>Explore the same architecture for the Moon and remote Earth terrain.</span></div></div>
+    </div>
+    <div class="card"><div class="big-q" style="font-size:clamp(35px,4vw,62px)">Can you<br>get back?</div><p class="label">WALKBACK · Jezero Crater</p><p>One planning question for every exploration traverse.</p></div>
+  </div>
+  <div class="footer"><span>Team: one adult member and two under-18 members (minor names omitted)</span><span>07 / 07</span></div>
+</section>
+<div class="controls"><button id="prev" aria-label="Previous slide">←</button><span class="counter" id="count">01 / 07</span><button id="next" aria-label="Next slide">→</button></div>
+</main>
+<script>
+(()=>{const slides=[...document.querySelectorAll('.slide')],count=document.getElementById('count');let i=0;
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));count.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');}
+document.getElementById('prev').addEventListener('click',()=>show(i-1));document.getElementById('next').addEventListener('click',()=>show(i+1));
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});
+})();
+</script>
+</body></html>

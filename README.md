@@ -2,19 +2,16 @@
 
 **NASA Space Apps Challenge 2026 · Map of Mars**
 
-WALKBACK is an interactive, browser-based prototype for exploring human surface traverses around Jezero Crater. Its central question is simple: can an explorer return to a safe point before life-support resources or a configurable warning window run out?
+WALKBACK is an interactive browser prototype for exploring human surface traverses around Jezero Crater. Its central question is simple: can an explorer return to a safe point before life-support resources or a configurable warning window run out?
 
-## Open the prototype
+## Try the project
 
-The application is the repository's `index.html`. It is a static web app and loads Three.js 0.128.0 and OrbitControls from jsDelivr, so an internet connection is required.
-
-To run locally:
-
-```bash
-python -m http.server 8000
-```
-
-Open `http://localhost:8000`.
+- **Interactive application:** open [index.html](index.html) or visit the GitHub Pages site after deployment: `https://valto-hash.github.io/walkback-mars/`.
+- **Seven-slide presentation (English):** [presentation.html](presentation.html).
+- **Project description:** [docs/PROJECT_DESCRIPTION.md](docs/PROJECT_DESCRIPTION.md).
+- **Model and assumptions:** [docs/MODEL.md](docs/MODEL.md).
+- **Data inventory:** [docs/DATA.md](docs/DATA.md).
+- **Credits and provenance:** [CREDITS.md](CREDITS.md).
 
 ## What is implemented
 
@@ -29,33 +26,36 @@ Open `http://localhost:8000`.
 
 This is an exploratory planning prototype, **not a certified astronaut-safety tool**. The terrain outside the rover traverse corridor is procedural; slope is calculated on an approximately 200 m grid; the Tobler-based walking model is not adjusted for Mars gravity (0.38 g); and the current app does not integrate validated suit limits, soil strength/trafficability, solar-energy, measured local radiation-dose or live solar-weather datasets. The green envelope is not a storm forecast or radiation-dose simulation. The straight-line human route is proposed geometry, not a validated human-walkable path.
 
-See [the model notes](docs/MODEL.md), [data provenance](docs/DATA.md), and [credits](CREDITS.md).
+Read [the model notes](docs/MODEL.md), [data provenance](docs/DATA.md), and [credits](CREDITS.md) before interpreting results.
 
 ## NASA data
 
 The primary embedded NASA source is the NASA/JPL Mars 2020 Perseverance waypoint dataset:
 https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json
 
-Other resources in the documentation are marked as reference-only or future integration sources. They must not be described as live layers in the current prototype.
+Other resources in the documentation are marked as reference-only or future integration sources. They are not represented as live data layers in the current prototype.
 
 ## Team
 
 - **Guilherme Albernaz Martins Costa** — adult team member.
-- **Two additional student team members under 18** — their names are intentionally not published in this public repository, following the team's submission guidance for minors.
+- **Two additional team members under 18** — names intentionally omitted from this public repository and public submission materials in accordance with the NASA Space Apps 2026 participant terms.
 
-The complete team roster should remain in the official event registration. Do not add identifying names, voices or likenesses of under-18 participants to public demo videos or materials.
+The complete registration details belong in the official event system, subject to the event's rules. Do not add identifiable names, voices or likenesses of under-18 participants to public submission materials.
 
 ## AI tools disclosure
 
 ChatGPT (OpenAI) assisted with organizing and editing project documentation, the presentation narrative and submission-support text. The team must disclose any other AI tools actually used and accurately describe each tool's contribution in the official submission.
 
-## Repository contents
+## Run locally
 
-- `index.html` — interactive prototype.
-- `data/manifest.json` — inventory and provenance of the currently embedded dataset.
-- `docs/` — project description, model notes, data notes, pitch and submission checklist.
-- `CREDITS.md` — data and software credits.
+The application is a single static HTML file. It loads Three.js 0.128.0 and OrbitControls from jsDelivr, so an internet connection is required for those libraries.
+
+```bash
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000` in a modern browser.
 
 ## License
 
-No license has been selected for the team's original source code yet. See [docs/LICENSE_DECISION_REQUIRED.md](docs/LICENSE_DECISION_REQUIRED.md). Do not assume that the Three.js MIT license applies to this project.
+No license has been selected for the team's original source code yet. See [docs/LICENSE_DECISION_REQUIRED.md](docs/LICENSE_DECISION_REQUIRED.md). Do not assume that Three.js's MIT license applies to WALKBACK.

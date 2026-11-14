@@ -1,0 +1,16 @@
+{
+  "layers": [
+    {
+      "id": "mars2020_perseverance_waypoints",
+      "title": "Mars 2020 Perseverance traverse waypoints",
+      "source": "NASA/JPL M20_waypoints.json",
+      "mission": "Mars 2020 / Perseverance",
+      "resolution": "Irregular point records at rover drive endpoints; no fixed raster resolution",
+      "link": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
+      "license_or_credit": "Credit NASA/JPL. Verify the dataset-specific notice/terms before further redistribution; do not infer an independent license from this repository.",
+      "confidence": "High for source waypoint records; derived model outputs have additional uncertainty",
+      "measured_or_derived": "Mission-recorded waypoint fields (Sol, location, elevation, odometer); route comparisons and reachability envelopes are derived by the application",
+      "status": "embedded"
+    }
+  ]
+}
