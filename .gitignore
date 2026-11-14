@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.DS_Store
+M20_JezeroCrater_CTXDEM_20m.tif
+data/raw/
+data/processed/*.json
+!data/processed/.gitkeep

@@ -1,40 +1,53 @@
-# WALKBACK | NASA Space Apps Challenge 2026 submission checklist
+# WALKBACK | NASA Space Apps Challenge 2026 checklist
 
-## Public materials
+## Public deliverables
 
-- [x] Interactive application committed as `index.html`.
-- [x] Public project repository created: https://github.com/valto-hash/walkback-mars
-- [x] Seven-slide English presentation available as `presentation.html` in this repository.
-- [x] Project description, model notes, data inventory, pitch notes and credits included.
-- [ ] Test the application from the public GitHub Pages URL after deployment.
-- [ ] Add the public demo link and public project/repository link separately in the official Project tab.
-- [ ] Test links in a private/incognito browser window and from another device if possible.
-- [ ] Complete the official project form and submit before the event deadline.
+- [x] Public GitHub repository: https://github.com/valto-hash/walkback-mars
+- [x] Interactive prototype in `index.html`.
+- [x] Seven-slide English presentation in `presentation.html` (maximum seven slides including title/closing).
+- [x] Project description, model notes, data inventory, credits, pitch, DEM import instructions and validation report.
+- [x] JavaScript model-contract tests: 12 passed in local validation.
+- [x] Synthetic CTX DEM/projection tests: 4 passed in local validation.
+- [ ] Enable GitHub Pages manually: Settings → Pages → Build and deployment → GitHub Actions. Automated enabling was denied by the connected GitHub App permission.
+- [ ] After Pages deployment, test the app and presentation in an incognito browser and from another device.
+- [ ] Enter the public demo link and public project/repository link separately in the official Project tab.
+- [ ] Reconfirm the official event deadline, deliverable format and required fields in the event portal before submission.
 
-## Required disclosure and minor protection
+## Participant / AI disclosures
 
-- [x] ChatGPT (OpenAI) is disclosed in the project documentation.
-- [ ] Add any other AI tools the team actually used and describe their real contribution.
-- [x] No names, voices or likenesses of under-18 team members are included in these public submission materials. The official 2026 Participant Terms say recognizable names, voices and likenesses of persons under 18 should not be included in any submission.
-- [ ] Ensure any public demo recording also contains no recognizable names, voices or likenesses of under-18 participants.
-- [ ] Confirm minors were registered by a parent/legal guardian and accompanied as required by the event terms.
+- [x] ChatGPT (OpenAI) assistance with code review/correction, tests, documentation, data-processing workflow and presentation editing is disclosed.
+- [ ] Add any other AI tools actually used by team members and accurately describe their contribution.
+- [x] Names of the two under-18 team members are omitted from public submission material in accordance with the 2026 Participant Terms.
+- [ ] Ensure public videos/materials contain no recognizable names, voices or likenesses of under-18 participants.
+- [ ] Confirm parent/legal guardian registration and event accompaniment requirements for minor participants.
 
-## Science and data accuracy
+## Scientific accuracy and data scope
 
-- [x] The embedded NASA dataset is identified specifically as NASA/JPL Mars 2020 Perseverance waypoints.
-- [x] Sources only referenced or planned are clearly distinguished from integrated data.
-- [x] Model assumptions and uncertainties are described.
-- [x] The green envelope is not described as a solar-storm forecast or radiation-dose simulation.
-- [x] The proposed 12.2 km straight-line route is not described as a validated human-walkable route.
-- [ ] Verify the dataset-specific terms/attribution notice and all third-party asset/library licenses before final public release.
-- [ ] The team must choose an OSI-compliant license for original source code or understand the default distribution provision in the NASA Participant Terms. Get agreement from contributors before adding a repository license.
+- [x] The 698 NASA/JPL Perseverance waypoints are identified as the dataset embedded by default.
+- [x] MRO / CTX Jezero DEM is distinguished as an optional import source, not bundled or loaded by default.
+- [x] CTX source resolution (~20 m) is distinguished from the current app solver grid (~215 m).
+- [x] CTX processor uses Mars equirectangular / planetocentric / positive-east coordinates; it does not incorrectly transform them as Earth EPSG:4326.
+- [x] Minetti's Earth-based slope-cost polynomial and the 0.38-g sensitivity assumption are explicitly distinguished; the adaptation is not presented as validated EVA physiology.
+- [x] The warning interval is labelled as user-entered/hypothetical, not a solar forecast or radiation-dose calculation.
+- [x] All four reachability classes are described, and only green satisfies both limits.
+- [x] The resource budget includes the reserve margin: 4.0 h / 1.25 = 3.2 h at defaults.
+- [x] The slope threshold is identified as coarse-grid screening, not a certified human limit.
+- [x] Route metrics are anchor-to-anchor comparisons, not a validated human route or cumulative ascent over all intermediate points.
+- [x] Three Forks tube recovery by a future crew is described as hypothetical, not an approved mission plan.
+- [ ] Download the original CTX GeoTIFF, process it and load the JSON grid if the team wants to demonstrate the optional MRO/CTX data layer. Do not claim it is active before loading it.
+- [ ] Integrate a second mission layer in the live app before claiming the multi-mission data objective is fully achieved.
+- [ ] Improve solver resolution toward the 1–5 m human-scale target and validate soil, energy, radiation and shelter inputs before making human-safety claims.
+- [ ] Obtain independent review by relevant EVA, planetary-science, geotechnical and radiation specialists for any future safety interpretation.
 
-## Event requirements to reconfirm on the official portal
+## License and credits
 
-The official Project tab controls final submission. Confirm the exact local event/Universal Event instructions, team registration status, accepted deliverable format, deadline and all required fields there. The 2026 event terms and challenge page are linked below.
+- [ ] Agree with all contributors on an OSI-compliant license for original source code and add its full text. No license has been silently chosen.
+- [ ] Confirm notices for each dataset and third-party library before redistribution.
+- [x] NASA/JPL waypoints are credited; optional CTX source and reference-only resources are recorded separately.
 
-## Official references
+## Remaining manual checks
 
-- NASA Space Apps 2026: https://www.spaceappschallenge.org/2026/
-- 2026 Participant Terms and Conditions: https://www.spaceappschallenge.org/legal/
-- NASA Space Apps brand guidance: https://www.spaceappschallenge.org/brand/
+- [ ] Test app in a current desktop browser and a mobile browser with network access (Three.js is loaded from jsDelivr).
+- [ ] Load a real processed CTX JSON grid and inspect terrain continuity/NoData status.
+- [ ] Verify public pages open without account login.
+- [ ] Complete all submission form fields and confirm final submission status in the official NASA Space Apps portal.

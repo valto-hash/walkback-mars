@@ -3,127 +3,70 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="WALKBACK: an exploratory human-traverse planning prototype for Jezero Crater, Mars.">
 <title>WALKBACK | NASA Space Apps Challenge 2026</title>
 <style>
-:root{color-scheme:dark;--bg:#0c1118;--panel:#141e29;--ink:#f5eee4;--muted:#b8c2cc;--orange:#ff985b;--cyan:#72d7df;--green:#8bd6a3;--line:#314354}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#070b10;color:var(--ink);font:16px/1.45 Inter,Segoe UI,Arial,sans-serif}
-body{display:grid;place-items:center;overflow:hidden}.deck{width:min(100vw,177.78vh);height:min(100vh,56.25vw);position:relative;background:radial-gradient(ellipse at 80% 15%,#523322 0,#1d2228 24%,#0c1118 62%);overflow:hidden;box-shadow:0 20px 90px #0009}
-.slide{position:absolute;inset:0;padding:6.2% 7.2% 7.5%;display:none;grid-template-rows:auto 1fr auto;gap:3.4%;background:linear-gradient(135deg,#111a23ee,#0a1119f5)}
-.slide.active{display:grid}.eyebrow{color:var(--orange);font-size:clamp(11px,1vw,17px);font-weight:750;letter-spacing:.18em;text-transform:uppercase}
-h1{font-size:clamp(34px,5.4vw,84px);line-height:.98;letter-spacing:-.045em;margin:.18em 0 .25em;max-width:900px}
-h2{font-size:clamp(26px,3.4vw,54px);line-height:1.02;letter-spacing:-.035em;margin:.18em 0 .25em}
-p{color:var(--muted);font-size:clamp(15px,1.45vw,23px);max-width:860px;margin:.5em 0}
-.kicker{font-size:clamp(15px,1.5vw,24px);color:#e8d7c6;max-width:690px}
-.footer{display:flex;justify-content:space-between;align-items:center;color:#93a0ad;font-size:clamp(10px,.8vw,13px);border-top:1px solid var(--line);padding-top:1.2%}
-.content{align-self:center;display:grid;grid-template-columns:1fr 1fr;gap:5%;align-items:center}.content.single{grid-template-columns:1fr}.card{background:linear-gradient(145deg,#1a2935,#111b25);border:1px solid #344756;border-radius:16px;padding:5%}.card h3{font-size:clamp(16px,1.7vw,26px);margin:0 0 .45em;color:#fff}.card p{font-size:clamp(13px,1.2vw,19px);margin:.35em 0}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:2%}.metric{padding:8% 6%;border:1px solid var(--line);border-radius:16px;background:#14212c}.metric strong{display:block;font-size:clamp(30px,4vw,64px);color:var(--orange);letter-spacing:-.05em}.metric span{font-size:clamp(11px,1vw,16px);color:var(--muted)}
-.pill{display:inline-block;border:1px solid #526575;padding:.35em .75em;border-radius:99px;color:#c9d5df;font-size:clamp(11px,.95vw,15px);margin:.25em .3em .25em 0}
-.diagram{width:100%;height:auto;max-height:53vh}.list{display:grid;gap:12px}.item{display:grid;grid-template-columns:10px 1fr;gap:14px;align-items:start}.dot{width:9px;height:9px;border-radius:50%;background:var(--orange);margin-top:.55em}.item b{color:#fff}.item span{color:var(--muted)}
-.label{color:var(--cyan);font-weight:700}.warn{color:#ffc28d}.good{color:var(--green)}
-.controls{position:absolute;bottom:1.3%;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;z-index:5}.controls button{background:#16232e;border:1px solid #3b5365;color:#fff;border-radius:99px;padding:8px 14px;cursor:pointer}.controls button:hover{border-color:var(--orange)}.counter{font-size:12px;color:#b5c0ca;min-width:42px;text-align:center}
-.big-q{font-size:clamp(44px,6vw,94px);font-weight:850;line-height:.98;letter-spacing:-.06em;color:#fff}.subline{font-size:clamp(16px,1.6vw,25px);color:var(--muted);max-width:690px}
-@media(max-aspect-ratio:4/3){.content{grid-template-columns:1fr;gap:2%}.slide{padding:5% 6% 10%}.diagram{max-height:30vh}.card{padding:3%}}
+:root{color-scheme:dark;--bg:#080d13;--panel:#131e29;--panel2:#1a2a38;--ink:#f3efe8;--muted:#bac5ce;--orange:#ff9b60;--cyan:#73d8e0;--green:#91d9a7;--blue:#7cc9ef;--amber:#ffc176;--red:#f18a85;--line:#34495b}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--ink);font:16px/1.42 Inter,Segoe UI,Arial,sans-serif}body{display:grid;place-items:center;overflow:hidden}
+.deck{width:min(100vw,177.7778vh);height:min(100vh,56.25vw);position:relative;overflow:hidden;background:radial-gradient(ellipse at 83% 15%,#4d3528 0,#20252a 28%,#0c131b 72%);box-shadow:0 18px 80px #0009}
+.slide{position:absolute;inset:0;padding:5.8% 7% 7.4%;display:none;grid-template-rows:auto 1fr auto;gap:3%;background:linear-gradient(135deg,#111b25f5,#0a1119f4)}.slide.active{display:grid}
+.eyebrow{color:var(--orange);font-size:clamp(10px,.95vw,16px);font-weight:800;letter-spacing:.17em;text-transform:uppercase}h1{font-size:clamp(34px,5vw,78px);line-height:.98;letter-spacing:-.05em;margin:.2em 0 .25em}h2{font-size:clamp(26px,3.15vw,51px);line-height:1.02;letter-spacing:-.04em;margin:.18em 0 .25em}h3{font-size:clamp(16px,1.55vw,25px);margin:0 0 .45em;color:#fff}p{font-size:clamp(13px,1.24vw,20px);color:var(--muted);margin:.5em 0;max-width:880px}.lead{font-size:clamp(16px,1.55vw,25px);max-width:760px;color:#e3ddd4}.footer{display:flex;justify-content:space-between;gap:1em;align-items:center;border-top:1px solid var(--line);padding-top:1.1%;font-size:clamp(9px,.77vw,13px);color:#a5b1bb}
+.content{align-self:center;display:grid;grid-template-columns:1fr 1fr;gap:4.5%;align-items:center}.content.single{grid-template-columns:1fr}.card{border:1px solid #3a5062;border-radius:16px;background:linear-gradient(145deg,var(--panel2),var(--panel));padding:4.8%;min-width:0}.card p{font-size:clamp(12px,1.1vw,18px)}.tag{display:inline-block;border:1px solid #526a7c;padding:.34em .7em;border-radius:99px;color:#d5e1e8;font-size:clamp(9px,.82vw,13px);margin:.2em .3em .2em 0}
+.list{display:grid;gap:clamp(9px,1.2vw,18px)}.item{display:grid;grid-template-columns:10px 1fr;gap:13px;align-items:start}.dot{width:9px;height:9px;border-radius:50%;background:var(--orange);margin-top:.5em}.item b{color:#fff}.item span{color:var(--muted);font-size:clamp(12px,1.05vw,17px)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:2%}.metric{padding:8% 6%;border:1px solid var(--line);border-radius:16px;background:#14212c}.metric strong{display:block;font-size:clamp(28px,3.8vw,62px);color:var(--orange);letter-spacing:-.06em}.metric span{display:block;color:var(--muted);font-size:clamp(10px,.95vw,15px);margin-top:.3em}.pillrow{margin-top:1.4em}.note{border-left:3px solid var(--amber);padding:.5em .8em;color:#e5cfae;background:#372b20aa;border-radius:0 8px 8px 0;font-size:clamp(11px,1vw,16px)}.key{color:var(--cyan);font-weight:750}.bigq{font-size:clamp(42px,6vw,94px);font-weight:900;line-height:.96;letter-spacing:-.065em;color:#fff}.states{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.state{border:1px solid var(--line);border-radius:10px;padding:3.5%;background:#0e1922}.state b{font-size:clamp(12px,1.15vw,18px)}.state span{font-size:clamp(10px,.9vw,14px);color:var(--muted);display:block}.green{color:var(--green)}.blue{color:var(--blue)}.orange{color:var(--amber)}.red{color:var(--red)}
+.controls{position:absolute;bottom:1.2%;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;z-index:8}.controls button{background:#16232e;border:1px solid #3b5365;color:#fff;border-radius:99px;padding:7px 14px;cursor:pointer}.controls button:focus-visible{outline:2px solid var(--orange);outline-offset:3px}.controls button:hover{border-color:var(--orange)}.counter{font-size:11px;color:#b5c0ca;min-width:42px;text-align:center}.cover{align-self:center}.tiny{font-size:clamp(9px,.8vw,13px);color:#aab5bf}.figure{display:block;width:100%;height:auto;max-height:43vh;object-fit:contain;border:1px solid #42586a;border-radius:12px;background:#101820}.figure.wide{max-height:31vh}
+@media(max-aspect-ratio:4/3){.slide{padding:4.8% 5.5% 10%;gap:2%}.content{grid-template-columns:1fr;gap:2.5%}.card{padding:3%}.list{gap:8px}.metrics{gap:1%}.diagram{max-height:25vh}}
+@media(prefers-reduced-motion:no-preference){.slide.active{animation:fade .22s ease-out}@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
 </style>
 </head>
 <body>
 <main class="deck" aria-label="WALKBACK seven-slide presentation">
-<section class="slide active">
-  <div><div class="eyebrow">NASA Space Apps Challenge 2026 · Map of Mars</div></div>
-  <div style="align-self:center">
-    <div class="big-q">Can you get<br>back in time?</div>
-    <h1 style="font-size:clamp(24px,3vw,46px);color:var(--orange);margin-top:.4em">WALKBACK</h1>
-    <p class="subline">A layered traverse-planning prototype for human exploration around Jezero Crater.</p>
-    <div style="margin-top:2em"><span class="pill">NASA/JPL Perseverance waypoints</span><span class="pill">Two reachability envelopes</span><span class="pill">Interactive 3D</span></div>
-  </div>
-  <div class="footer"><span>Jezero Crater · Mars</span><span>01 / 07</span></div>
+<section class="slide active" aria-label="Slide 1 of 7">
+ <div class="eyebrow">NASA Space Apps Challenge 2026 · Map of Mars</div>
+ <div class="cover"><div class="bigq">Can you get<br>back in time?</div><h1 style="font-size:clamp(27px,3.1vw,48px);color:var(--orange);margin-top:.48em">WALKBACK</h1><p class="lead">An exploratory traverse-planning prototype for hypothetical human exploration around Jezero Crater.</p><div class="pillrow"><span class="tag">698 NASA/JPL waypoints</span><span class="tag">Two time budgets</span><span class="tag">Minetti-inspired cost proxy</span></div></div>
+ <div class="footer"><span>Jezero Crater · Mars</span><span>01 / 07</span></div>
 </section>
-<section class="slide">
-  <div><div class="eyebrow">01 · The challenge</div><h2>Planning a walk is more than drawing a line.</h2></div>
-  <div class="content">
-    <div class="list">
-      <div class="item"><i class="dot"></i><div><b>Safety</b><br><span>Can the crew return with the resources they have?</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Efficiency</b><br><span>How do slope and terrain change travel time?</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Science</b><br><span>Which sites of geological interest fit inside a safe traverse?</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Communications</b><br><span>Can the explorer maintain line of sight to a relay?</span></div></div>
-    </div>
-    <div class="card"><h3>Why Jezero?</h3><p>An ancient river-and-lake environment with a real rover traverse that can anchor a first-pass comparison.</p><p class="label">A place to ask a scientific question and test a planning idea.</p></div>
-  </div>
-  <div class="footer"><span>Safety · Efficiency · Scientific return</span><span>02 / 07</span></div>
+<section class="slide" aria-label="Slide 2 of 7">
+ <div><div class="eyebrow">01 · The challenge</div><h2>A traverse is more than a line on a map.</h2></div>
+ <div class="content"><div class="list">
+  <div class="item"><i class="dot"></i><div><b>Safety</b><br><span>Can an explorer return within the configured life-support budget and warning window?</span></div></div>
+  <div class="item"><i class="dot"></i><div><b>Efficiency</b><br><span>How do slope and modeled walking cost change the estimated return time?</span></div></div>
+  <div class="item"><i class="dot"></i><div><b>Scientific return</b><br><span>Which geological sites can be considered within those modeled limits?</span></div></div>
+  <div class="item"><i class="dot"></i><div><b>Communications</b><br><span>Does the terrain preserve geometric line of sight to an assumed relay mast?</span></div></div>
+ </div><div class="card"><h3>Why Jezero?</h3><p>An ancient river-and-lake environment with a real Perseverance traverse that anchors a first-pass comparison.</p><p class="key">The rover route provides evidence for geometry, not a human safety certification.</p></div></div>
+ <div class="footer"><span>Safety · Efficiency · Scientific return · Communications</span><span>02 / 07</span></div>
 </section>
-<section class="slide">
-  <div><div class="eyebrow">02 · The prototype</div><h2>One scene. Several planning layers.</h2></div>
-  <div class="content">
-    <svg class="diagram" viewBox="0 0 620 390" role="img" aria-label="Conceptual map of Jezero with proposed route and rover route">
-      <defs><radialGradient id="cr"><stop stop-color="#8e5e42"/><stop offset=".72" stop-color="#61412f"/><stop offset="1" stop-color="#2a3034"/></radialGradient></defs>
-      <ellipse cx="305" cy="190" rx="270" ry="165" fill="url(#cr)" stroke="#c18a61" stroke-width="2"/>
-      <path d="M92 202 Q170 130 218 171 T337 172 T515 210" stroke="#8bd6a3" stroke-width="5" fill="none" stroke-dasharray="7 7"/>
-      <path d="M102 245 Q190 228 239 190 T345 164 T496 128" stroke="#ffb36e" stroke-width="4" fill="none"/>
-      <g fill="#f1e2cf" font-size="15" font-family="Arial"><text x="75" y="285">Base</text><text x="205" y="130">Delta front</text><text x="318" y="120">Science stops</text><text x="448" y="100">Crater rim</text></g>
-      <g fill="#ffb36e"><circle cx="102" cy="245" r="7"/><circle cx="239" cy="190" r="7"/><circle cx="345" cy="164" r="7"/><circle cx="496" cy="128" r="7"/></g>
-      <g fill="#8bd6a3"><circle cx="92" cy="202" r="5"/><circle cx="218" cy="171" r="5"/><circle cx="337" cy="172" r="5"/><circle cx="515" cy="210" r="5"/></g>
-      <text x="30" y="365" fill="#ffb36e" font-size="14">Orange: proposed stop-to-stop path</text><text x="335" y="365" fill="#8bd6a3" font-size="14">Green: rover traverse concept</text>
-    </svg>
-    <div class="list">
-      <div class="item"><i class="dot"></i><div><b>3D Jezero scene</b><br><span>Rover traverse and proposed route between science stops.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Reachability controls</b><br><span>Consumables, speed, safety margin and warning interval.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Exploration tools</b><br><span>First-person mode, elevation profile, slope and radio visibility.</span></div></div>
-    </div>
-  </div>
-  <div class="footer"><span>Interactive browser prototype</span><span>03 / 07</span></div>
+<section class="slide" aria-label="Slide 3 of 7">
+ <div><div class="eyebrow">02 · What is implemented</div><h2>One 3D scene. Several planning tools.</h2></div>
+ <div class="card"><img class="figure" src="assets/jezero-route-overview.svg" alt="Map comparing Perseverance odometer path and proposed straight route between selected Jezero anchors"><p class="tiny">Route overview derived from selected NASA/JPL waypoint anchors; terrain background is a visualization, not a continuous DEM.</p></div>
+ <div class="list"><div class="item"><i class="dot"></i><div><b>698 NASA/JPL waypoint records</b><br><span>Perseverance position, elevation and odometer records embedded in the app.</span></div></div><div class="item"><i class="dot"></i><div><b>3D exploration</b><br><span>Rover traverse, proposed science-stop anchors, elevation profile and first-person camera.</span></div></div><div class="item"><i class="dot"></i><div><b>Planning overlays</b><br><span>Slope screen, four reachability states and geometric radio visibility.</span></div></div><div class="item"><i class="dot"></i><div><b>Five-Sol scenario</b><br><span>Eight entries, including a return-to-base step without sampling.</span></div></div></div></div>
+ <div class="footer"><span>Portuguese · English · Spanish · German</span><span>03 / 07</span></div>
 </section>
-<section class="slide">
-  <div><div class="eyebrow">03 · The core idea</div><h2>Two envelopes. Two different questions.</h2></div>
-  <div class="content">
-    <div class="card" style="border-color:#3e7390"><h3 style="color:#83d8ff">BLUE · Walk-back</h3><p>How far can an explorer travel and still return on the remaining consumables?</p><p><span class="label">Inputs:</span> consumable time, flat-ground speed, safety margin.</p></div>
-    <div class="card" style="border-color:#53896a"><h3 style="color:#9be0aa">GREEN · Shelter reach</h3><p>From which locations can the selected shelter be reached within the configured warning interval?</p><p><span class="label">Input:</span> configurable warning window.</p></div>
-  </div>
-  <div class="footer"><span>Travel-time estimates propagated across a derived grid</span><span>04 / 07</span></div>
+<section class="slide" aria-label="Slide 4 of 7">
+ <div><div class="eyebrow">03 · Core decision logic</div><h2>Two independent budgets. Four map states.</h2></div>
+ <div class="content"><div class="card"><h3>Default demonstration inputs</h3><div class="metrics" style="grid-template-columns:repeat(2,1fr)"><div class="metric"><strong>4.0 h</strong><span>Remaining life-support time</span></div><div class="metric"><strong>25%</strong><span>Reserve margin</span></div><div class="metric"><strong>3.2 h</strong><span>Derived return-time budget</span></div><div class="metric"><strong>45 min</strong><span>User-entered hypothetical warning window</span></div></div><p class="tiny">All values are illustrative inputs, not suit specifications or live forecasts.</p></div>
+ <div class="states"><div class="state"><b class="green">GREEN · Both pass</b><span>Resources and warning window both pass.</span></div><div class="state"><b class="blue">BLUE · Resources only</b><span>Return budget passes; warning window does not.</span></div><div class="state"><b class="orange">ORANGE · Warning only</b><span>Warning window passes; resource budget does not.</span></div><div class="state"><b class="red">RED · Neither</b><span>Neither configured time budget passes.</span></div><div class="note" style="grid-column:1/-1"><b>Decision rule:</b> only green satisfies both modeled time constraints. The optional accelerated clock advances 1 simulated minute per real second; it is user-triggered, not a solar forecast or radiation-dose model.</div></div></div>
+ <div class="footer"><span>Dijkstra path-time surface · Minetti-inspired slope-cost proxy · 0.38-g sensitivity assumption</span><span>04 / 07</span></div>
 </section>
-<section class="slide">
-  <div><div class="eyebrow">04 · Data and uncertainty</div><h2>Show the evidence. Show the limits.</h2></div>
-  <div class="content">
-    <div class="card"><h3>Embedded mission data</h3><p style="font-size:clamp(27px,3.2vw,50px);color:var(--orange);font-weight:800">698</p><p>NASA/JPL Mars 2020 Perseverance waypoint records, Sol 13–2022, with position, elevation and odometer fields.</p></div>
-    <div class="list">
-      <div class="item"><i class="dot"></i><div><b>Terrain</b><br><span>Procedural beyond the rover corridor; approx. 200–215 m grid.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Walking model</b><br><span>Tobler-inspired; not adjusted for 0.38 g or suit physiology.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Solar and radiation</b><br><span>No live solar forecast or local radiation-dose simulation.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Interpretation</b><br><span>Exploratory prototype, not a certified EVA safety system.</span></div></div>
-    </div>
-  </div>
-  <div class="footer"><span>NASA/JPL waypoint data · derived model outputs</span><span>05 / 07</span></div>
+<section class="slide" aria-label="Slide 5 of 7">
+ <div><div class="eyebrow">04 · Evidence and uncertainty</div><h2>Show what is real. Show what is estimated.</h2></div>
+ <div class="content"><div class="card"><h3>Embedded mission data</h3><div style="font-size:clamp(34px,4vw,62px);font-weight:850;color:var(--orange)">698</div><p>NASA/JPL Mars 2020 Perseverance waypoint records spanning Sol 13–2022.</p><p class="key">Optional: USGS / MRO CTX Jezero DEM (~20 m native) has a processing and import workflow, but is not bundled or loaded by default.</p></div>
+ <div class="list"><div class="item"><i class="dot"></i><div><b>Terrain and slope</b><br><span>Approx. 215 m solver grid; default terrain is procedural outside the rover corridor. Optional CTX DEM is sampled to this same coarse grid.</span></div></div><div class="item"><i class="dot"></i><div><b>Walking cost</b><br><span>Minetti-inspired slope-cost proxy; a 0.38-g scaling is an explicit sensitivity assumption, not validated EVA physiology.</span></div></div><div class="item"><i class="dot"></i><div><b>Missing environmental layers</b><br><span>No soil-strength, solar-energy or location-specific radiation-dose model.</span></div></div><div class="item"><i class="dot"></i><div><b>Communications</b><br><span>Geometric line of sight only, not a radio link budget.</span></div></div></div></div>
+ <div class="footer"><span>Exploratory prototype · Not a certified EVA safety system</span><span>05 / 07</span></div>
 </section>
-<section class="slide">
-  <div><div class="eyebrow">05 · Route comparison</div><h2>The rover's science route is not a human shortcut.</h2></div>
-  <div class="content single">
-    <div class="metrics">
-      <div class="metric"><strong>12.2 km</strong><span>Proposed straight-line connection between selected anchors</span></div>
-      <div class="metric"><strong>32.3 km</strong><span>Perseverance odometer across the corresponding traverse segments</span></div>
-      <div class="metric"><strong>+784 m</strong><span>Approximate cumulative positive elevation gain</span></div>
-    </div>
-    <p class="warn">These are route-comparison metrics from the embedded waypoint records. They do not prove that the proposed line is traversable or safe for a human crew.</p>
-  </div>
-  <div class="footer"><span>Comparison of selected site anchors</span><span>06 / 07</span></div>
+<section class="slide" aria-label="Slide 6 of 7">
+ <div><div class="eyebrow">05 · Route comparison</div><h2>The rover's science traverse is not a human shortcut.</h2></div>
+ <div class="content single"><div class="metrics"><div class="metric"><strong>12.2 km</strong><span>Proposed straight segments between selected anchors</span></div><div class="metric"><strong>32.3 km</strong><span>Perseverance odometer across corresponding traverse segments</span></div><div class="metric"><strong>+784 m</strong><span>Sum of positive elevation changes between selected anchors</span></div></div><img class="figure wide" src="assets/perseverance-elevation-profile.svg" alt="Elevation profile of selected Perseverance traverse anchors along the rover odometer distance"><div class="note">These are comparisons derived from waypoint records. The straight-line proposal is not a validated human-walkable route; +784 m is not cumulative ascent across every intermediate rover waypoint.</div><p>Mission concept: five Sols, ending with a return-to-base step on Sol 5. The crew schedule, instruments and sampling plan are hypothetical project assumptions.</p></div>
+ <div class="footer"><span>Selected anchor-to-anchor comparison · Not a safety certification</span><span>06 / 07</span></div>
 </section>
-<section class="slide">
-  <div><div class="eyebrow">06 · Next steps</div><h2>From a prototype to a mission-grade model.</h2></div>
-  <div class="content">
-    <div class="list">
-      <div class="item"><i class="dot"></i><div><b>Real terrain</b><br><span>Replace procedural terrain with a validated Jezero DEM.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>More data layers</b><br><span>Integrate mineralogy, geology, soil, illumination and radiation sources.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Physical validation</b><br><span>Calibrate walking costs for 0.38 g and validated suit/EVA parameters.</span></div></div>
-      <div class="item"><i class="dot"></i><div><b>Broader applications</b><br><span>Explore the same architecture for the Moon and remote Earth terrain.</span></div></div>
-    </div>
-    <div class="card"><div class="big-q" style="font-size:clamp(35px,4vw,62px)">Can you<br>get back?</div><p class="label">WALKBACK · Jezero Crater</p><p>One planning question for every exploration traverse.</p></div>
-  </div>
-  <div class="footer"><span>Team: one adult member and two under-18 members (minor names omitted)</span><span>07 / 07</span></div>
+<section class="slide" aria-label="Slide 7 of 7">
+ <div><div class="eyebrow">06 · Roadmap and conclusion</div><h2>From an honest prototype to a stronger mission model.</h2></div>
+ <div class="content"><div class="list"><div class="item"><i class="dot"></i><div><b>Higher-resolution terrain</b><br><span>Load the optional CTX DEM, then build a multi-resolution 1–5 m hazard grid.</span></div></div><div class="item"><i class="dot"></i><div><b>Additional mission layers</b><br><span>Complete the MRO/CTX import and integrate geology, mineralogy, soil, illumination and radiation layers.</span></div></div><div class="item"><i class="dot"></i><div><b>Model validation</b><br><span>Validate walking-cost assumptions for 0.38 g and suited EVA with domain experts.</span></div></div><div class="item"><i class="dot"></i><div><b>Operational extensions</b><br><span>Validated shelter attenuation, solar-weather input, radio link budget and emergency caches.</span></div></div></div><div class="card"><div class="bigq" style="font-size:clamp(37px,4.7vw,72px)">Can you<br>get back?</div><h3 style="color:var(--orange);margin-top:1em">WALKBACK · Jezero Crater</h3><p>One operational question for every exploration traverse.</p><p class="tiny">AI disclosure: ChatGPT (OpenAI) assisted with code review, tests, documentation and presentation editing.</p></div></div>
+ <div class="footer"><span>Team: one adult member and two under-18 members (minor names omitted)</span><span>07 / 07</span></div>
 </section>
-<div class="controls"><button id="prev" aria-label="Previous slide">←</button><span class="counter" id="count">01 / 07</span><button id="next" aria-label="Next slide">→</button></div>
+<div class="controls" aria-label="Slide navigation"><button id="prev" type="button" aria-label="Previous slide">←</button><span class="counter" id="count" aria-live="polite">01 / 07</span><button id="next" type="button" aria-label="Next slide">→</button></div>
 </main>
 <script>
-(()=>{const slides=[...document.querySelectorAll('.slide')],count=document.getElementById('count');let i=0;
-function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));count.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');}
-document.getElementById('prev').addEventListener('click',()=>show(i-1));document.getElementById('next').addEventListener('click',()=>show(i+1));
-addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});
-})();
+(()=>{const slides=[...document.querySelectorAll('.slide')],count=document.getElementById('count');let i=0;function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.setAttribute('aria-hidden',String(k!==i));});count.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');}document.getElementById('prev').addEventListener('click',()=>show(i-1));document.getElementById('next').addEventListener('click',()=>show(i+1));addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});show(0);})();
 </script>
-</body></html>
+</body>
+</html>

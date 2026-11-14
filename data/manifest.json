@@ -5,12 +5,29 @@
       "title": "Mars 2020 Perseverance traverse waypoints",
       "source": "NASA/JPL M20_waypoints.json",
       "mission": "Mars 2020 / Perseverance",
+      "instrument": "Perseverance traverse localization / odometry records",
       "resolution": "Irregular point records at rover drive endpoints; no fixed raster resolution",
       "link": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
-      "license_or_credit": "Credit NASA/JPL. Verify the dataset-specific notice/terms before further redistribution; do not infer an independent license from this repository.",
-      "confidence": "High for source waypoint records; derived model outputs have additional uncertainty",
-      "measured_or_derived": "Mission-recorded waypoint fields (Sol, location, elevation, odometer); route comparisons and reachability envelopes are derived by the application",
-      "status": "embedded"
+      "license_or_credit": "Credit NASA/JPL. Verify dataset-specific attribution/terms before redistribution.",
+      "confidence": "High for source waypoint records; app route and safety outputs are derived estimates",
+      "measured_or_derived": "Mission waypoint fields are source records; route comparisons, interpolated terrain corrections and reachability surfaces are derived by the application",
+      "status": "embedded_by_default"
+    },
+    {
+      "id": "mro_ctx_jezero_dem",
+      "title": "Mars 2020 Science Investigation CTX DEM Mosaic, Jezero Crater",
+      "source": "USGS Astrogeology / NASA MRO CTX",
+      "mission": "Mars Reconnaissance Orbiter (MRO)",
+      "instrument": "Context Camera (CTX)",
+      "resolution": "Approximately 20 m/pixel native; app output sampled to approximately 215 m per cell",
+      "link": "https://astrogeology.usgs.gov/search/map/mars_2020_science_investigation_ctx_dem_mosaic",
+      "download": "https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif",
+      "license_or_credit": "USGS metadata marks product public domain and requests author citation. Cite Fred Calef / USGS Astrogeology Science Center (2021), Mars 2020 Science Investigation CTX DEM Mosaic.",
+      "confidence": "Dataset product is documented by USGS; model interpretation is limited by resampling and terrain assumptions",
+      "measured_or_derived": "DEM elevation raster is source data; 261x261 JSON grid is resampled by the included processor",
+      "status": "optional_import_pipeline_ready_not_bundled_or_loaded_by_default",
+      "coordinate_reference": "Mars equirectangular; planetocentric latitude; positive-east longitude; radius 3,396,160 m",
+      "processing": "Direct Mars planetary-coordinate sampling to 261x261 app grid; no terrestrial EPSG:4326 transform; native ~20 m pixels resampled to ~215 m cells"
     }
   ]
 }

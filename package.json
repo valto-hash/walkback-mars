@@ -1,0 +1,12 @@
+{
+  "name": "walkback-mars",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Exploratory human-traverse planning prototype for Jezero Crater",
+  "scripts": {
+    "test": "node --test tests/model_contract.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

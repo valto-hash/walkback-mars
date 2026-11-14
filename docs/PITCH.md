@@ -1,31 +1,31 @@
-# WALKBACK | Roteiro de fala (PT-BR)
+# WALKBACK | 3-minute pitch notes (Português)
 
-Apresentação pública em inglês, com 7 slides. Este roteiro em português acompanha a apresentação interativa em `presentation.html`. Duração aproximada: 3 minutos. O pitch oral só deve ser usado se o evento local solicitar.
+Use only if the local event asks for a live pitch. The official demonstration is the seven-slide English presentation in `presentation.html`.
 
-## Slide 1 — Can you get back in time? (~20 s)
+## Slide 1 — Can you get back in time?
 
-“Em Marte, planejar uma caminhada não é apenas escolher o caminho mais curto. É saber se a equipe consegue retornar com os consumíveis disponíveis e alcançar um abrigo dentro de uma janela de aviso. O WALKBACK transforma essa pergunta em uma visualização interativa para Jezero, usando dados reais do Perseverance e deixando as simplificações visíveis.”
+“Em Marte, planejar uma caminhada não é apenas escolher o caminho mais curto. É comparar a estimativa de retorno com os recursos de suporte à vida e com uma janela de aviso. O WALKBACK transforma essa pergunta em uma visualização interativa para Jezero, usando waypoints reais do Perseverance e deixando as hipóteses visíveis.”
 
-## Slide 2 — The challenge (~25 s)
+## Slide 2 — The challenge
 
-“O desafio pede uma visualização em camadas que combine dados científicos para apoiar caminhadas humanas em Marte. Segurança, eficiência e retorno científico precisam ser analisados juntos. Jezero é uma boa escolha porque preserva registros de um antigo sistema de rio e lago e também possui uma rota real do Perseverance, que permite comparar a geometria do nosso planejamento com dados de um rover.”
+“O desafio pede uma visualização em camadas que reúna dados científicos para apoiar o planejamento de caminhadas humanas em Marte. Segurança, eficiência e retorno científico precisam ser considerados juntos. Jezero tem uma rota real do Perseverance, o que permite comparar a geometria da proposta com deslocamentos de um rover.”
 
-## Slide 3 — The prototype (~25 s)
+## Slide 3 — What is implemented
 
-“O protótipo reúne a rota do Perseverance, uma rota humana proposta entre pontos de interesse e uma cena 3D interativa. O usuário pode explorar em primeira pessoa, selecionar o abrigo, ajustar parâmetros de retorno, visualizar inclinação e analisar a visada de rádio. Há sete paradas científicas propostas e interface em português, inglês, espanhol e alemão.”
+“O protótipo tem uma cena 3D, a rota do rover, pontos de interesse, perfil de elevação, câmera em primeira pessoa, triagem de inclinação, envelopes de tempo e visada geométrica de rádio. Os waypoints do Mars 2020 estão embutidos. Também adicionamos uma ferramenta opcional para processar e importar o MDE CTX do MRO, mas esse arquivo precisa ser baixado e carregado pelo usuário.”
 
-## Slide 4 — Two safety envelopes (~30 s)
+## Slide 4 — Two budgets, four states
 
-“A principal contribuição do WALKBACK é separar dois limites. O envelope azul estima o retorno a pé com base nos consumíveis restantes, velocidade configurada e margem. O envelope verde estima se o abrigo pode ser alcançado antes do intervalo de aviso selecionado. O motor usa Dijkstra sobre uma grade e uma função de caminhada inspirada em Tobler. Os valores são parâmetros de demonstração, não especificações reais de traje nem limites certificados.”
+“O envelope azul/verde/laranja/vermelho compara duas condições independentes: o orçamento de tempo de retorno derivado do suporte de vida e a janela hipotética de aviso inserida pelo usuário. Há também um relógio demonstrativo acelerado, em que um minuto simulado passa a cada segundo real, atualizando o mapa. Somente verde passa pelos dois limites. A janela não é uma previsão de tempestade solar e não calcula dose de radiação.”
 
-## Slide 5 — Data and uncertainty (~30 s)
+## Slide 5 — Model and uncertainty
 
-“Hoje, os dados embutidos são os waypoints do Mars 2020, com posição, altitude e odômetro. Fora do corredor do rover, o relevo é procedural; a inclinação usa uma grade de aproximadamente 200 metros, e o modelo de caminhada ainda não corrige a gravidade de Marte. Não há camadas integradas de solo, energia solar ou dose local de radiação. O aviso verde usa uma janela configurável, não uma previsão real de tempestade. Por isso, este é um protótipo exploratório, não um sistema certificado de segurança.”
+“O custo de caminhada usa o polinômio de Minetti para inclinação, medido em esteira na Terra, e uma hipótese de sensibilidade para 0,38 g. A hipótese não é uma validação para astronautas em trajes. O solver trabalha em células de aproximadamente 215 metros, e o relevo padrão é procedural fora do corredor do rover. Por isso, o projeto é um protótipo exploratório, não um sistema certificado de segurança.”
 
-## Slide 6 — Route comparison (~25 s)
+## Slide 6 — Route comparison
 
-“Entre os pontos selecionados, a rota humana proposta em segmentos retos soma cerca de 12,2 quilômetros. O odômetro do Perseverance registra aproximadamente 32,3 quilômetros e a subida acumulada fica perto de 784 metros. O rover fez desvios para investigar alvos científicos. Esses números servem como referência de geometria e plausibilidade, não como prova de que a rota seja caminhável por humanos.”
+“Entre os pontos selecionados, os segmentos retos propostos somam aproximadamente 12,2 quilômetros. O odômetro do Perseverance registra cerca de 32,3 quilômetros nos segmentos correspondentes. A soma das variações positivas de altitude entre os pontos selecionados é aproximadamente 784 metros entre as âncoras selecionadas. Esses números comparam geometria e não demonstram que a rota seja caminhável por humanos.”
 
-## Slide 7 — Next steps (~25 s)
+## Slide 7 — What comes next
 
-“O próximo passo é aumentar a fidelidade dos dados e do modelo: substituir o terreno procedural por um modelo digital de terreno real, integrar camadas mineralógicas e geológicas, ajustar o custo de caminhada à gravidade marciana e incorporar parâmetros de traje e radiação validados. Energia solar, poeira e comunicação também precisam entrar no planejamento. A mesma arquitetura pode inspirar aplicações na Lua e em áreas remotas da Terra, mas esses modos ainda não estão implementados. Nosso compromisso é mostrar o que já funciona e o que ainda precisa de validação.”
+“Os próximos passos são carregar o MDE CTX real, integrar outras camadas orbitais e geológicas, aumentar a resolução do solver, modelar solo e energia, integrar previsão de eventos solares e dose de radiação, e validar o modelo com especialistas em atividade extraveicular. Nossa prioridade é distinguir claramente dados medidos, estimativas e hipóteses.”
