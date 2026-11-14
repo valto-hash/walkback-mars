@@ -4,11 +4,13 @@
 
 WALKBACK is an interactive exploratory traverse-planning prototype for Jezero Crater. It asks whether a hypothetical explorer can return to a selected shelter within a user-configured life-support time budget and a second hypothetical warning window.
 
-## Open the project
+## Project files and live demo
 
-- [Interactive application](index.html)
-- [Seven-slide English presentation](presentation.html)
-- [Project description](docs/PROJECT_DESCRIPTION.md)
+- **Application source (HTML):** [index.html](index.html)
+- **Seven-slide English presentation:** [presentation.html](presentation.html)
+- **Project description:** [docs/PROJECT_DESCRIPTION.md](docs/PROJECT_DESCRIPTION.md)
+
+The interactive site is **not live yet**. First enable GitHub Pages at **Settings → Pages → Build and deployment → GitHub Actions**, then run **Actions → Deploy WALKBACK to GitHub Pages → Run workflow**. After a successful deployment, the public URLs will be `https://valto-hash.github.io/walkback-mars/` and `https://valto-hash.github.io/walkback-mars/presentation.html`.
 - [Model, equations and limitations](docs/MODEL.md)
 - [Data inventory](docs/DATA.md)
 - [Optional CTX DEM import](docs/DEM_IMPORT.md)
