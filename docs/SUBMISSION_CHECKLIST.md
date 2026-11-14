@@ -6,7 +6,7 @@
 - [x] Interactive prototype in `index.html`.
 - [x] Seven-slide English presentation in `presentation.html` (maximum seven slides including title/closing).
 - [x] Project description, model notes, data inventory, credits, pitch, DEM import instructions and validation report.
-- [x] JavaScript model-contract tests: 12 passed in local validation.
+- [x] JavaScript model-contract tests: 13 passed in local validation.
 - [x] Synthetic CTX DEM/projection tests: 4 passed in local validation.
 - [ ] Enable GitHub Pages manually: Settings → Pages → Build and deployment → GitHub Actions. Automated enabling was denied by the connected GitHub App permission.
 - [ ] After Pages deployment, test the app and presentation in an incognito browser and from another device.

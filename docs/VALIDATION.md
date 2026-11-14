@@ -10,7 +10,7 @@ Command:
 npm test
 ```
 
-Result: **12 tests passed**. The suite parses the full inline app JavaScript and tests:
+Result: **13 tests passed**. The suite parses the full inline app JavaScript and tests:
 
 1. usable support-time budget and reserve margin;
 2. Minetti polynomial at known grades and clamping to its stated range;
@@ -23,7 +23,8 @@ Result: **12 tests passed**. The suite parses the full inline app JavaScript and
 9. DEM JSON schema, base-reference and NoData validation (null is not converted to zero elevation);
 10. visible labeling that the warning is hypothetical and the CTX DEM is optional/imported, not bundled;
 11. runtime execution of the language/DEM-control initialization path (catches reference-order errors);
-12. presence of a user-triggered, explicitly accelerated hypothetical warning-window clock.
+12. presence of a user-triggered, explicitly accelerated hypothetical warning-window clock;
+13. runtime behavior of the countdown (advance, pause and reset).
 
 ### DEM processing pipeline
 

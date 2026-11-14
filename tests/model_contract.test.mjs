@@ -122,6 +122,39 @@ test('hypothetical alert clock is user-triggered and advances one simulated minu
   assert.match(html, /not a solar forecast or radiation-dose model/);
 });
 
+test('alert countdown actually advances, pauses and resets the warning-window envelope', () => {
+  const start = html.indexOf('const sbl=()=>');
+  const end = html.indexOf('function reach(', start);
+  assert.ok(start >= 0 && end > start, 'alert clock functions must be present');
+  const source = html.slice(start, end);
+  const elements = new Map();
+  const $ = (selector) => {
+    if (!elements.has(selector)) elements.set(selector, { textContent: '' });
+    return elements.get(selector);
+  };
+  const sandbox = {
+    lang:'en', U:{en:{alertPause:'Pause',alertStart:'Start',alertReset:'Reset',alertReady:'Ready',alertRunning:'Running',alertFinished:'Finished',alertNote:'Demo only'}},
+    PR:{warn:45}, alertRemainingSeconds:2700, alertTimer:null, Tsh:0.75, si:-1, walk:false,
+    $,
+    setInterval:(fn,ms)=>{sandbox.tick=fn;sandbox.intervalMs=ms;return 7;},
+    clearInterval:(id)=>{sandbox.cleared=id;},
+    terrain:()=>{sandbox.terrainCalls=(sandbox.terrainCalls||0)+1;},
+    simRender:()=>{}, hudUpdate:()=>{}
+  };
+  vm.runInNewContext(`${source}\nglobalThis.snapshot=()=>({remaining:alertRemainingSeconds,warningHours:Tsh,running:!!alertTimer});\ntoggleAlertClock();`, sandbox);
+  assert.equal(sandbox.intervalMs,1000);
+  assert.equal(sandbox.snapshot().running,true);
+  sandbox.tick();
+  assert.equal(sandbox.snapshot().remaining,2640);
+  assert.equal(sandbox.snapshot().warningHours,44/60);
+  vm.runInNewContext('toggleAlertClock();',sandbox);
+  assert.equal(sandbox.snapshot().running,false);
+  assert.equal(sandbox.cleared,7);
+  vm.runInNewContext('resetAlertClock();',sandbox);
+  assert.equal(sandbox.snapshot().remaining,2700);
+  assert.equal(sandbox.snapshot().warningHours,0.75);
+});
+
 test('language initialization updates the optional DEM controls without a temporal-dead-zone error', () => {
   const start = html.indexOf('function setLang(l){');
   const end = html.indexOf('\n}\n/* Trechos:', start);
