@@ -1,50 +1,27 @@
-# WALKBACK | Validation report
+# Validation record
 
-## Automated checks run in the local working copy
+Local validation performed 15 November 2026: 21/21 JavaScript tests passed; 9/9 synthetic raster/projection tests passed; 698 embedded Mars 2020 Perseverance waypoints passed SHA-256 integrity validation (Sols 13–2022); Python compilation and HTML/inline JavaScript syntax checks passed. Chromium browser smoke is configured in GitHub Actions but could not be completed locally because the local browser environment blocked localhost. Do not describe it as locally passed.
 
-### JavaScript model contract
-
-Command:
+Run locally:
 
 ```bash
 npm test
+npm run validate:data
+python -m pip install -r scripts/requirements.txt
+python -m unittest discover -s scripts -p 'test_*.py' -v
+python -m py_compile scripts/prepare_ctx_dem.py scripts/prepare_themis_grid.py scripts/prepare_hirise_patch.py scripts/render_route_figures.py
+python scripts/test_browser_smoke.py
 ```
 
-Result: **13 tests passed**. The suite parses the full inline app JavaScript and tests:
+GitHub Actions runs the browser smoke against the hosted-style local page, including advanced budgets, RF estimates, THEMIS/HiRISE JSON loading and mobile controls. It requires the Three.js CDN.
 
-1. usable support-time budget and reserve margin;
-2. Minetti polynomial at known grades and clamping to its stated range;
-3. explicit 0.38-g slope-cost sensitivity, level-speed normalization and uphill/downhill direction;
-4. independent resource/warning reachability classes;
-5. slope-screen boundaries;
-6. slope blocking and no diagonal corner cutting through a blocked cell;
-7. HUD colors for all four classes and unreachable cells;
-8. invalid values fail loudly;
-9. DEM JSON schema, base-reference and NoData validation (null is not converted to zero elevation);
-10. visible labeling that the warning is hypothetical and the CTX DEM is optional/imported, not bundled;
-11. runtime execution of the language/DEM-control initialization path (catches reference-order errors);
-12. presence of a user-triggered, explicitly accelerated hypothetical warning-window clock;
-13. runtime behavior of the countdown (advance, pause and reset).
+## Scientific limits
 
-### DEM processing pipeline
-
-Command:
-
-```bash
-cd scripts
-python -m unittest test_prepare_ctx_dem.py -v
-```
-
-Result: **4 synthetic-GeoTIFF/projection tests passed**. These verify the Mars equirectangular coordinate conversion, 261 × 261 sampling on a synthetic planetary-metre raster, landing-site reference lookup and rejection of incomplete Mars-projection coverage. They do not verify the actual 87 MB USGS source file.
-
-## Not completed / not validated
-
-- The actual CTX GeoTIFF could not be downloaded into this build environment; the pipeline and browser importer are ready, but no real CTX JSON grid is bundled or loaded by default.
-- No browser/WebGL end-to-end test was completed in this environment.
-- No independent validation by EVA specialists, geologists, radiation-protection experts or mission engineers has been performed.
-- The Minetti-based 0.38-g adjustment is an explicit sensitivity assumption and has not been calibrated for suited human locomotion.
-- The app solver remains ~215 m/cell; the pipeline does not retain native 20 m data in the solver.
-- No validation of soil trafficability, solar energy, radiation dose, shelter attenuation, RF link margin or rescue response has been performed.
-- Mobile and desktop GPU performance has not been benchmarked.
-
-These tests verify code contracts and the synthetic data pipeline only. They do not certify the physical model or any route for human EVA.
+- Tests use synthetic rasters and software contracts; no real CTX, THEMIS or HiRISE product raster has been imported.
+- No ~87 MB CTX DEM, THEMIS mosaic or HiRISE DTM is bundled.
+- Global terrain is about 215 m/cell; HiRISE is an independent local preview, not global pathfinding.
+- The Minetti walking model is Earth-based; its 0.38-g adjustment is heuristic. Resource hours, terrain multipliers, task/rest time and RF parameters are hypothetical.
+- RF is a single-hop free-space estimate plus geometric line of sight, not a validated network design.
+- The accelerated warning clock is not a solar forecast, local radiation dose or health model.
+- Browser smoke is not scientific, accessibility or mobile hardware certification. Manual testing remains necessary.
+- GitHub Pages is only live after the repository owner enables Pages and a deployment succeeds.
