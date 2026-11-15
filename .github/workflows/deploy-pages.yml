@@ -1,10 +1,17 @@
 name: Deploy WALKBACK to GitHub Pages
 
-# GitHub Pages must first be enabled in Settings → Pages → Build and deployment → GitHub Actions.
-# Run this workflow manually after enabling Pages; automatic push runs are disabled because
-# the connected GitHub integration cannot enable Pages settings on the user's behalf.
+# First enable Pages in Settings → Pages → Build and deployment → GitHub Actions.
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'presentation.html'
+      - 'manifest.webmanifest'
+      - 'service-worker.js'
+      - 'assets/walkback-icon.svg'
+      - '.github/workflows/deploy-pages.yml'
 
 permissions:
   contents: read
@@ -30,6 +37,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
