@@ -1,13 +1,11 @@
-const VERSION='walkback-shell-v1.1.2.1';
+const VERSION='walkback-shell-v1.1.3.1';
 const BASE=new URL('./',self.location.href);
 const SHELL=[
   BASE.href,
   new URL('index.html',BASE).href,
   new URL('presentation.html',BASE).href,
   new URL('manifest.webmanifest',BASE).href,
-  new URL('assets/walkback-icon.svg',BASE).href,
-  new URL('assets/walkback-icon-192.png',BASE).href,
-  new URL('assets/walkback-icon-512.png',BASE).href
+  new URL('assets/walkback-icon.svg',BASE).href
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('walkback-shell-')&&k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
