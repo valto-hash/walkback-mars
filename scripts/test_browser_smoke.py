@@ -4,7 +4,6 @@ from __future__ import annotations
 import json, os, threading
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
-
 ROOT=Path(__file__).resolve().parents[1]
 class QuietHandler(SimpleHTTPRequestHandler):
     def __init__(self,*args,**kwargs):super().__init__(*args,directory=str(ROOT),**kwargs)
@@ -46,15 +45,23 @@ def main():
             assert page.locator('#advPace').input_value()=='custom','Language change lost custom pace.'
             patch={'schema':'walkback.hirise-patch.v1','width':501,'height':501,'native_pixel_size_m':5,'center_app_local_x_km':0,'center_app_local_y_km':0,'values_m':[123.0]*(501*501)}
             page.locator('#advHiriseFile').set_input_files({'name':'hirise.json','mimeType':'application/json','buffer':json.dumps(patch).encode()})
+            try:
+                page.wait_for_function("document.querySelector('#advHiriseCanvas')?.style.display === 'block'",timeout=15000)
+            except Exception:
+                print('HIRISE STATUS:',page.locator('#advHiriseStatus').inner_text())
+                print('PAGE ERRORS:',errors)
+                raise
             assert page.locator('#advHiriseCanvas').is_visible(),'HiRISE patch preview did not appear.'
+            assert '501×501' in page.locator('#advHiriseStatus').inner_text(),'HiRISE metadata missing.'
             themis={'schema':'walkback.themis-visual-grid.v1','width':261,'height':261,'source':'synthetic fixture','values_8bit':[128]*(261*261),'interpretation':'qualitative_only_not_temperature','quantitative_use_allowed':False}
             page.locator('#advThemisFile').set_input_files({'name':'themis.json','mimeType':'application/json','buffer':json.dumps(themis).encode()})
+            page.wait_for_function("document.querySelector('#advThemisStatus')?.textContent?.toLowerCase().includes('qualitative only')",timeout=15000)
             assert 'qualitative only' in page.locator('#advThemisStatus').inner_text().lower()
             page.set_viewport_size({'width':390,'height':844})
             assert page.locator('#advSurface').is_visible() and page.locator('#advFreq').is_visible()
             if errors:raise AssertionError('Browser JavaScript errors: '+'; '.join(errors))
             browser.close()
-        print('Browser smoke passed: advanced budgets, RF, THEMIS, HiRISE and mobile controls.')
+        print('Browser smoke passed: resources, RF, THEMIS, HiRISE and mobile controls.')
     finally:
         server.shutdown();server.server_close()
 if __name__=='__main__':main()
