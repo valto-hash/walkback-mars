@@ -1,27 +1,28 @@
 # Validation record
 
-Local validation performed 15 November 2026: 21/21 JavaScript tests passed; 9/9 synthetic raster/projection tests passed; 698 embedded Mars 2020 Perseverance waypoints passed SHA-256 integrity validation (Sols 13–2022); Python compilation and HTML/inline JavaScript syntax checks passed. Chromium browser smoke is configured in GitHub Actions but could not be completed locally because the local browser environment blocked localhost. Do not describe it as locally passed.
+Last local validation: 15 November 2026. The current source passes 21 JavaScript tests, 9 Python raster/projection tests, the 698-waypoint SHA-256 integrity check, Python compilation and HTML/inline-JavaScript syntax parsing. The Chromium browser smoke test is configured in GitHub Actions but was not completed locally because the local browser navigation environment blocked localhost; do not treat that check as locally passed. It did pass in GitHub Actions on commit `1464c44722831f0748d7d1104e699ac94fbdc05c` (run: https://github.com/valto-hash/walkback-mars/actions/runs/43667954192); all three CI jobs (JavaScript, Python raster and Chromium smoke) completed successfully.
+
+## Automated checks
 
 Run locally:
 
 ```bash
 npm test
-npm run validate:data
-python -m pip install -r scripts/requirements.txt
+node scripts/validate_embedded_data.mjs
 python -m unittest discover -s scripts -p 'test_*.py' -v
 python -m py_compile scripts/prepare_ctx_dem.py scripts/prepare_themis_grid.py scripts/prepare_hirise_patch.py scripts/render_route_figures.py
 python scripts/test_browser_smoke.py
 ```
 
-GitHub Actions runs the browser smoke against the hosted-style local page, including advanced budgets, RF estimates, THEMIS/HiRISE JSON loading and mobile controls. It requires the Three.js CDN.
+GitHub Actions runs JavaScript model tests, embedded-waypoint integrity, Python raster import tests and a Chromium browser smoke test. The browser smoke test checks the advanced resource panel, RF estimate, THEMIS/HiRISE JSON loaders, and narrow-screen controls. The external Three.js libraries are loaded from jsDelivr; the browser smoke job therefore needs network access to that CDN.
 
-## Scientific limits
+## Scientific and operational limits
 
-- Tests use synthetic rasters and software contracts; no real CTX, THEMIS or HiRISE product raster has been imported.
-- No ~87 MB CTX DEM, THEMIS mosaic or HiRISE DTM is bundled.
-- Global terrain is about 215 m/cell; HiRISE is an independent local preview, not global pathfinding.
-- The Minetti walking model is Earth-based; its 0.38-g adjustment is heuristic. Resource hours, terrain multipliers, task/rest time and RF parameters are hypothetical.
-- RF is a single-hop free-space estimate plus geometric line of sight, not a validated network design.
-- The accelerated warning clock is not a solar forecast, local radiation dose or health model.
-- Browser smoke is not scientific, accessibility or mobile hardware certification. Manual testing remains necessary.
-- GitHub Pages is only live after the repository owner enables Pages and a deployment succeeds.
+- Tests validate code contracts and synthetic raster handling; they do not validate a real CTX, THEMIS or HiRISE product raster.
+- The repository does not bundle the ~87 MB CTX DEM, a THEMIS mosaic or a HiRISE DTM. Importers are prepared, but those products must be separately selected, downloaded, projected/verified and loaded by the team.
+- The global terrain grid remains about 215 m per cell. HiRISE is presented only as an independent local patch preview.
+- The Minetti-derived walking model is Earth-based; the 0.38-g grade sensitivity adjustment is heuristic. Surface multipliers, resource-hour values, task/rest time and RF parameters are editable hypothetical assumptions, not measured EVA parameters.
+- Radio is a simplified single-hop free-space link budget plus a geometric line-of-sight screen; it is not an RF network design.
+- The accelerated solar-warning clock is not a forecast, local radiation dose or crew health model.
+- The browser smoke test is not a full scientific or accessibility certification. Manual checks on actual target phones and desktops remain necessary.
+- GitHub Pages is only live after the repository owner enables Pages and the deployment workflow completes successfully.
