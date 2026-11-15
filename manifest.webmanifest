@@ -1,0 +1,16 @@
+{
+  "name": "WALKBACK · Jezero Mars Traverse Planner",
+  "short_name": "WALKBACK",
+  "description": "Exploratory Mars traverse planning prototype for Jezero Crater.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#17110d",
+  "theme_color": "#c4511a",
+  "lang": "en",
+  "icons": [
+    {"src":"assets/walkback-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
