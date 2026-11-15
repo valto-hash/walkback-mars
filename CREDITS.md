@@ -8,11 +8,13 @@ This file distinguishes datasets embedded by default from optional import source
 |---|---|---|---|---|
 | `M20_waypoints.json` | NASA/JPL, Mars 2020 / Perseverance | 698 waypoint records embedded in `index.html`; position, Sol, elevation and odometer support traverse, stop anchors and route comparison | Irregular rover drive-endpoint records, Sol 13–2022; not a fixed raster resolution | Credit NASA/JPL. Verify the dataset-specific notice/terms before further redistribution. Source: https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json |
 
-## Optional import source (not bundled or loaded by default)
+## Optional orbital import sources (not bundled or loaded by default)
 
 | Resource | Mission / instrument | Use | Native resolution | Credit / status |
 |---|---|---|---:|---|
 | Jezero CTX DEM Mosaic | NASA Mars Reconnaissance Orbiter / Context Camera (MRO / CTX), USGS Astrogeology product | Optional terrain grid imported via `scripts/prepare_ctx_dem.py` and the in-app JSON loader | ~20 m/pixel at source; sampled to ~215 m cells by the current app | Primary product credit: Fred Calef / USGS Astrogeology Science Center; the catalog identifies public-domain use and requests author citation. Cite as: Calef, F. (2021), *Mars 2020 Science Investigation CTX DEM Mosaic*, USGS Astrogeology Science Center. Product page: https://astrogeology.usgs.gov/search/map/mars_2020_science_investigation_ctx_dem_mosaic ; direct GeoTIFF: https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif . The original TIFF is not in this repository. The raster uses Mars equirectangular projection, planetocentric latitude, positive-east longitude, and a 3,396,160 m radius. |
+| THEMIS controlled mosaic | NASA Mars Odyssey / Thermal Emission Imaging System (THEMIS), USGS controlled mosaic | Optional 261 × 261 percentile-stretched qualitative grayscale overlay via `scripts/prepare_themis_grid.py` | Product-dependent; some controlled mosaics are about 100 m/pixel | Credit the selected product's NASA/JPL-Caltech/Arizona State University/USGS metadata. The original source mosaic is not bundled. Do not interpret 8-bit mosaic pixels as temperature, calibrated radiance, or dose. |
+| HiRISE local DTM | NASA Mars Reconnaissance Orbiter / High Resolution Imaging Science Experiment (MRO / HiRISE), USGS Jezero products | Optional high-resolution local elevation preview via `scripts/prepare_hirise_patch.py`; does not affect global routing | Product-dependent; user must preserve the actual DTM sample spacing | Cite the specific DTM and science team selected from the USGS product catalog. No DTM is bundled. |
 
 ## Reference-only resources (not integrated as active layers)
 
@@ -23,7 +25,6 @@ This file distinguishes datasets embedded by default from optional import source
 | USGS Astrogeology Interactive Maps: Mars | https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars | Geological reference only; not integrated. |
 | Curiosity's Proposed Path up Mount Sharp | https://science.nasa.gov/resource/curiositys-proposed-path-up-mount-sharp/ | Route-method reference only; not an input data layer. |
 | NASA Worldview | https://worldview.earthdata.nasa.gov/ | Reference for a possible future Earth mode; not implemented. |
-| Mars Odyssey THEMIS controlled mosaics | https://astrogeology.usgs.gov/search/map/mars-odyssey-themis-controlled-mosaics | Reference only; not downloaded or integrated. |
 
 ## Reproducible presentation figures
 
@@ -50,3 +51,10 @@ The public repository identifies the adult team member only. Names, voices and l
 ## AI tools disclosure
 
 ChatGPT (OpenAI) assisted with code review/correction, automated test development, technical documentation, the optional CTX processing workflow and presentation editing. The team must disclose any other AI tools actually used and describe their actual contributions in the official submission form.
+
+
+## Additional references and scientific boundaries
+
+- THEMIS controlled mosaic documentation: USGS Astrogeology, <https://stac.astrogeology.usgs.gov/docs/data/mars/themis_controlled_mosaics/>. The WALKBACK importer produces qualitative grayscale context only.
+- MRO / HiRISE Jezero landing-site products: USGS Astrogeology, <https://astrogeology.usgs.gov/search/map/mars_2020_jezero_crater_landing_site_products>. Cite the individual DTM product/team selected by the operator.
+- Odyssey MARIE archive: PDS Planetary Plasma Interactions Node, <https://pds-ppi.igpp.ucla.edu/>. This archive is referenced for mission context only, not as a local Jezero dose layer.
