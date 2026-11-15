@@ -4,12 +4,12 @@ from __future__ import annotations
 import json,os,threading
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
 from pathlib import Path
-from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
 class QuietHandler(SimpleHTTPRequestHandler):
  def __init__(self,*a,**kw):super().__init__(*a,directory=str(ROOT),**kw)
  def log_message(self,*a):pass
 def main():
+    from playwright.sync_api import sync_playwright
  server=ThreadingHTTPServer(("127.0.0.1",0),QuietHandler);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start();errors=[]
  try:
   with sync_playwright() as p:
