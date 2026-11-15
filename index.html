@@ -803,7 +803,7 @@ setReal(EMB);setLang(lang);resetTerrain();renderAlertScenario();fit();
     const [key,value]=minResource();
     PR.cons=value;
     const reserve=Number($('#r3').value);
-    Tw=Math.max(0,MODEL.resourceBudgetHours(value,reserve)-state.taskHours-state.restHours);
+    Tw=MODEL.usableBudget(state.resources,reserve,state.taskHours,state.restHours).budgetHours;
     const r1=$('#r1');r1.value=value;$('#v1').textContent=`${fmt(value,1)} h → ${fmt(Tw,2)} h útil`;
     updateResourceDisplay();
     solve();terrain();if(typeof draw==='function')draw();
