@@ -1,139 +1,71 @@
 # WALKBACK | Model, equations, assumptions and limitations
 
-## 1. Purpose
+## 1. Purpose and status
 
-WALKBACK is an exploratory browser prototype. It compares a modeled return-time surface from a selected shelter anchor with two independent time budgets:
+WALKBACK is an exploratory browser prototype for comparing a hypothetical return-to-shelter time with two independent time limits: a user-configured life-support budget and a hypothetical warning window. It is not a certified EVA planner, radiation-protection system, RF design or astronaut-safety tool.
 
-1. **Usable life-support return-time budget**, calculated from a user-entered remaining-support time and reserve margin.
-2. **Hypothetical warning window**, entered by the user in minutes.
+## 2. Grid and source data
 
-The map uses four mutually exclusive classes. Only the green class passes both configured budgets. This is not a mission go/no-go system and is not certified for EVA planning.
+The map/solver has 261 × 261 vertices over 56 km × 56 km:
 
-## 2. Terrain grid and source data
+`Δx = Δy = 56 / 260 = 0.21538 km ≈ 215 m`.
 
-The scene and solver grid contain 261 × 261 vertices over 56 km × 56 km:
+The 698 NASA/JPL Perseverance waypoint records (Sol 13–2022) are embedded by default. The default terrain outside the rover corridor is procedural. An optional MRO/CTX Jezero DEM importer samples the approximately 20 m/pixel USGS raster to the existing 215 m/cell grid; the raw GeoTIFF is not bundled and this is not native 20 m pathfinding. The imported CTX DEM must be inspected for projection, NoData and continuity before use.
 
-\[
-\Delta x=\Delta y=\frac{56}{260}=0.21538\;\mathrm{km}\approx215\;\mathrm{m}.
-\]
+THEMIS controlled mosaics can optionally be imported as a percentile-stretched visual grayscale overlay, strictly qualitative. The app rejects them as quantitative temperature data. HiRISE DTM data can be imported as an independent local preview patch, separate from global pathfinding. Neither raster product is currently bundled or active by default.
 
-The default terrain is procedural, locally corrected along the Perseverance traverse using NASA/JPL waypoint elevations. It is not a continuous orbital digital elevation model.
+## 3. Slope screening and pathfinding
 
-An optional import is now available for the **USGS / Mars Reconnaissance Orbiter (MRO) Context Camera (CTX) Jezero DEM mosaic**, whose source product is approximately 20 m/pixel and covers the crater. The raw GeoTIFF is not stored in this repository. `scripts/prepare_ctx_dem.py` samples it onto the app's existing 261 × 261 grid, then the user loads the resulting JSON with the app's “Load processed CTX DEM” control. This is a sample/resampling step: the app solver still operates at approximately 215 m per cell, not at the DEM's native 20 m resolution. It therefore still cannot assess 1–5 m foot-scale hazards.
+Slope is estimated by finite differences on the current terrain grid. The coarse screening bands are up to 10° (low), above 10° to 20° (moderate), above 20° to 30° (high) and above 30° (blocked). Dijkstra's eight-neighbour solver rejects blocked cells and diagonal moves that would cut corners through blocked neighbours. At ~215 m/cell this cannot detect metre-scale obstacles, loose regolith, boulders or local slope breaks.
 
-Source product: [USGS Astropedia, Mars 2020 Science Investigation CTX DEM Mosaic](https://astrogeology.usgs.gov/search/map/mars_2020_science_investigation_ctx_dem_mosaic). USGS metadata specify Mars equirectangular projection, planetocentric latitude, positive-east longitude and a 3,396,160 m radius; it marks the product public domain and requests author citation. Direct GeoTIFF: [M20_JezeroCrater_CTXDEM_20m.tif](https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif). The catalog identifies MRO and CTX and gives an external file size of about 87 MB. The import workflow records native resolution separately from the app grid.
+## 4. Walking-time proxy
 
-## 3. Slope screening
+The app uses the Minetti-inspired signed-grade polynomial fitted to Earth treadmill walking measurements:
 
-Slope is estimated by finite differences on the current terrain grid:
+`C_E(i)=280.5i⁵−58.7i⁴−76.8i³+51.9i²+19.6i+2.5`
 
-\[
-\theta=\arctan\left(\sqrt{(\partial z/\partial x)^2+(\partial z/\partial y)^2}\right).
-\]
+where grade `i` is clamped to [-0.45, 0.45]. The app applies a first-order Mars gravity sensitivity assumption:
 
-The on-screen screening bands follow the initial project brief:
+`C_M(i)=C_E(0)+0.38 × [C_E(i)−C_E(0)]`
 
-- up to 10°: low;
-- above 10° through 20°: moderate;
-- above 20° through 30°: high;
-- above 30°: blocked in the coarse solver.
+and estimates equivalent speed from the ratio of level-ground cost to grade cost. The 0.38 factor is a heuristic, not a calibration for suited Mars EVA. The default flat-ground speed is illustrative. Minetti et al. measured Earth walking, not suited astronauts in Martian gravity.
 
-The solver rejects diagonal moves that would cut a corner through a blocked adjacent cell. The >30° screen is only a preliminary filter at roughly 215 m spacing. It does not rule out steep local obstacles, cliffs, boulders, loose sand or hazardous rock surfaces inside a cell.
+Each grid edge contributes distance divided by estimated return speed, with grade evaluated in the direction back toward shelter. The solver computes a modeled return-time surface. It does not model suit mass or mobility, human physiology, fatigue, metabolic limits, actual oxygen/cooling draw, sinkage, traction, obstacle negotiation or EVA procedures.
 
-## 4. Walking-time cost proxy
+Reference: Minetti et al. (2002), Journal of Applied Physiology, https://doi.org/10.1152/japplphysiol.01177.2001.
 
-The earlier Tobler-only approximation has been replaced with a **Minetti-inspired slope-cost proxy**. Minetti et al. measured walking and running energy cost on a treadmill over signed gradients from −0.45 to +0.45 and fit a fifth-order polynomial to the walking-cost data. The polynomial used by the app is:
+## 5. Independent resource budget
 
-\[
-C_E(i)=280.5i^5-58.7i^4-76.8i^3+51.9i^2+19.6i+2.5,
-\]
+The advanced panel accepts hours for oxygen, electrical power, thermal control and CO₂ removal. The lowest of these is the limiting resource. The app then applies the reserve factor and subtracts task/setup and rest/break overhead:
 
-where \(i\) is signed grade (rise/run) and the input is clamped to the studied interval \([-0.45,0.45]\). The function is based on Earth measurements; it is not a Mars suit model. See [Minetti et al. (2002), Journal of Applied Physiology](https://doi.org/10.1152/japplphysiol.01177.2001).
+`T_usable = max(0, min(O₂, power, thermal, CO₂)/(1 + reserve/100) − tasks − rest)`
 
-The application uses an explicitly **heuristic, first-order gravity-sensitivity scenario**:
+Default scenario: 4 h for each resource, 25% reserve, 0.25 h task/setup and 0.25 h rest. This gives 2.7 h usable modeled return time. Every number is an editable scenario value, not a suit capability or NASA hardware specification.
 
-\[
-C_M(i)=C_E(0)+0.38\,[C_E(i)-C_E(0)]
-\]
+## 6. Terrain and uncertainty scenarios
 
-and converts the relative cost into an equivalent-time speed proxy:
+Illustrative time multipliers are compact/smooth 1.00, mixed 1.20, rocky 1.35 and loose sand 1.55. An additional uncertainty percentage increases travel-time estimates. These uniform factors do not change the geometric shortest path and are not measured trafficability coefficients. They do not implement spatial classification, soil mechanics, dust adhesion, sinkage or slope stability.
 
-\[
-v_{eq}(i)=\max\left(0.15,\;v_{flat}\frac{C_E(0)}{C_M(i)}\right)\quad\mathrm{km/h}.
-\]
+## 7. Warning window and four classes
 
-The value 0.38 is the Mars-to-Earth surface-gravity ratio used by the project. Only the *slope-related difference from level-ground cost* is scaled by this factor; the configured level-ground reference is kept unchanged. This is an engineering sensitivity assumption, not a relationship established by Minetti or a validated conversion from metabolic cost to walking speed under Martian gravity.
+The warning interval is entered by the user. The demonstration clock advances one simulated minute per real second when started. It is a narrative control only; no solar forecast, particle spectrum, local radiation dose, shelter attenuation, shielding or crew-health model exists.
 
-Cavagna et al. studied human walking under simulated 0.4 g and reported a lower external-work minimum at a slower speed than at 1 g (about 2.5 km/h versus 4.5 km/h for the reported external-work measure). This supports treating low gravity as relevant, but it does **not** calibrate the Minetti slope polynomial for Mars, nor does it represent suited EVA locomotion. The app's default flat-ground reference of 2.5 km/h is therefore only an illustrative starting value. See [Cavagna et al. (2000), Journal of Physiology](https://doi.org/10.1111/j.1469-7793.2000.00657.x).
+The map distinguishes: green = both resource and warning budgets pass; blue = resources only; orange = warning window only; red = neither. Only green passes both configured time limits. Unreachable cells remain distinct. The envelope radius is not a safe route length and is not a safety clearance.
 
-For a grid edge of length \(L\) km, the modeled time increment is \(\Delta t=L/v_{eq}(i)\) hours. Dijkstra's algorithm propagates the modeled return time from the selected shelter over an eight-neighbour grid. The grade is computed in the direction of travel **back toward the shelter**. The user-adjustable flat-ground speed, consumable time and reserve remain illustrative inputs.
+## 8. Communications approximation
 
-This proxy does not model suit mass/mobility, body mass, individual physiology, fatigue, oxygen and cooling-system consumption, metabolic power limits, terrain traction, obstacle negotiation, actual astronaut gait, or EVA protocols. It must not be described as a validated Mars walking model.
+The advanced panel calculates a single-hop free-space link margin combined with the geometric line-of-sight screen:
 
-## 5. Life-support return budget
+`FSPL(dB)=32.44 + 20log10(frequency MHz) + 20log10(distance km)`
 
-The remaining support-time input and reserve margin produce the usable modeled return-time budget:
+`margin = transmit power (dBm) + TX gain + RX gain − system losses − FSPL − receiver sensitivity`
 
-\[
-T_{resources}=\frac{T_{remaining}}{1+m/100}.
-\]
+The editable values are demonstration assumptions, not selected hardware. The estimate does not include diffraction, multipath, Mars plasma/atmosphere, antenna pattern or pointing, polarization, data rate, coding, regulatory allocation or a network of relays. It is not a communications guarantee.
 
-Default demonstration values are 4.0 h remaining support time and a 25% reserve, yielding 3.2 h usable modeled return time. The app now displays the entered support time and the derived usable budget separately. These values are not real suit specifications.
+## 9. Route metrics and mission scenario
 
-## 6. Hypothetical warning window
+The anchor-to-anchor human route is a proposed straight-line comparison to the Perseverance odometer. These geometric comparisons do not prove that a human route is walkable. The five-Sol exploration/return schedule and recovery of cached Three Forks sample tubes are hypothetical future scenarios, not an approved NASA crew mission.
 
-The user enters a warning interval in minutes:
+## 10. Interpretation rule
 
-\[
-T_{window}=\frac{\mathrm{warning\ minutes}}{60}.
-\]
-
-The default is 45 minutes (0.75 h). It is a scenario input only. The app provides a user-triggered demonstration clock that advances **one simulated minute per real second** and recomputes the warning-window classification as the clock runs. This acceleration is a storytelling device; it is not a model of solar-event dynamics or mission time. The app has no live solar-event feed, solar-storm forecast, particle spectrum, local dose-rate model, shielding model, shelter attenuation model or radiation-dose budget.
-
-## 7. Four reachability classes
-
-For modeled return time \(t\) at a grid cell:
-
-| State | Condition | Map color | Meaning |
-|---|---|---|---|
-| Both pass | \(t\le T_{resources}\) and \(t\le T_{window}\) | Green | Both configured budgets pass |
-| Resources only | \(t\le T_{resources}\) and \(t>T_{window}\) | Blue | Resource budget passes; warning window fails |
-| Warning only | \(t>T_{resources}\) and \(t\le T_{window}\) | Orange | Warning window passes; resource budget fails |
-| Neither | \(t>T_{resources}\) and \(t>T_{window}\) | Red | Both budgets fail |
-
-Cells with no computed route are marked unreachable. Only green satisfies both time constraints. The displayed envelope radius is the largest straight-line distance from the anchor to any cell in that class; it is not a route length and does not imply every point at that radius is reachable.
-
-## 8. Radio line of sight
-
-The geometric viewshed assumes a 10 m mast at the shelter and a 2 m explorer antenna. It includes a simplified Mars-curvature term using a 3,389.5 km radius. It is not a radio link budget and does not model frequency, transmit power, antenna pattern/gain, terrain-reflection, atmospheric losses, interference, relay orbits, link margin or actual hardware.
-
-## 9. Route comparison metrics
-
-The app associates seven selected science-stop anchors with nearby Perseverance waypoint Sols (13, 648, 940, 1219, 1250, 1299 and 1354). It compares straight-line connections between those anchors with the rover odometer between the corresponding waypoints.
-
-Approximate values from the embedded NASA/JPL records:
-
-- **12.2 km**: sum of straight-line segments between selected anchors;
-- **32.3 km**: Perseverance odometer distance between the corresponding anchors;
-- **+784 m**: sum of positive elevation changes between successive selected anchors.
-
-The +784 m value is the sum of positive elevation differences between the selected anchors only; it is not cumulative ascent over every intermediate rover waypoint. The straight-line route is not a terrain-following, obstacle-avoiding human route and has not been validated for human walking.
-
-## 10. Five-Sol scenario
-
-The proposal has five Sols: Sol 1 base and delta; Sol 2 Margin Unit; Sol 3 Cheyava Falls and Serpentine Rapids; Sol 4 Pico Turquino and Witch Hazel Hill; Sol 5 return to base without sampling. The app's simulation contains eight entries including the return stage. Instruments, durations, sample counts and masses are proposed scenario assumptions, not deployed hardware or an approved NASA crew mission. Recovery of the 10 cached Three Forks sample tubes by a future crew is hypothetical, not an approved mission plan.
-
-## 11. Known gaps that remain
-
-- The raw CTX GeoTIFF has not been bundled or loaded automatically; the optional pipeline/importer is ready, but the user must download and process the source file.
-- The solver grid remains ~215 m, too coarse for the 1–5 m human-scale terrain target.
-- The terrain is procedural unless the optional CTX grid is loaded; even then, it is resampled to the coarse app grid.
-- Additional mineralogy/geology/thermal layers (for example CRISM, HiRISE, THEMIS and USGS geologic maps) are not currently integrated as active map layers.
-- Soil strength, grain size, cohesion, sand traps, loose regolith, rock abundance and sharp-rock hazards are not modeled.
-- Solar illumination, seasonal shadows, dust opacity and solar energy/storage are not modeled.
-- There is no solar-storm forecast, dose-rate model, location-specific radiation dose or shelter attenuation model.
-- The gravity-sensitive walking-cost proxy is not validated against suited human movement at 0.38 g.
-- There is no full RF link budget or relay-network analysis.
-- No independent review by EVA, geotechnical, radiation-protection or mission-design specialists has been completed.
-
-WALKBACK remains a research prototype. It must not be used to authorize or plan a real EVA.
+Every display must be understood as one of: embedded mission record, imported source raster, derived estimate, or explicit user scenario. The current prototype supports exploratory comparison only. Real source rasters, independent EVA/geotechnical/radiation/RF review, browser and device validation, and a license decision remain outstanding.
