@@ -1,33 +1,47 @@
 # WALKBACK data and figure scripts
 
-## Prepare the optional USGS MRO / CTX DEM
-
-The original GeoTIFF is about 87 MB and is not stored in Git. Download it from:
-
-https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif
-
-Install dependencies:
+## Dependencies
 
 ```bash
 python -m pip install -r scripts/requirements.txt
 ```
 
-Run the processor:
+## Optional USGS MRO / CTX DEM
+
+The source GeoTIFF is about 87 MB and is not stored in Git. Download it from:
+
+https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif
 
 ```bash
 python scripts/prepare_ctx_dem.py M20_JezeroCrater_CTXDEM_20m.tif data/processed/jezero_ctx_dem_grid.json
 ```
 
-**Planetary CRS warning:** the product is Mars equirectangular, planetocentric latitude and positive-east longitude, with a 3,396,160 m radius. The processor computes Mars projected metre coordinates directly. It does not use terrestrial `EPSG:4326` transformations.
+The source product is approximately 20 m/pixel. WALKBACK samples it to a 261 × 261 grid over 56 km, about 215 m/cell. The processor uses Mars equirectangular, planetocentric latitude, positive-east longitude and radius 3,396,160 m. It does not use terrestrial EPSG:4326.
 
-The original CTX raster has about 20 m pixels. It is sampled onto the app's 261 × 261 grid over 56 km, about 215 m per cell. The solver therefore does not preserve native 20 m detail and cannot screen 1–5 m foot-scale hazards.
+## Optional Mars Odyssey / THEMIS visual overlay
 
-## Rebuild presentation figures
+Choose a controlled mosaic, inspect its exact PDS/USGS map label, and explicitly reproject the raster to the WALKBACK-compatible Mars equirectangular projected-metre grid. Never merely assign a CRS. Then:
 
-The route and elevation SVGs are generated from the 698 waypoint records embedded in `index.html`:
+```bash
+python scripts/prepare_themis_grid.py THEMIS_warped_to_WALKBACK.tif data/processed/jezero_themis_visual_grid.json --native-resolution-m 100
+```
+
+The output is a qualitative 8-bit grayscale visual layer only. It is not temperature, calibrated radiance or radiation dose.
+
+## Optional MRO / HiRISE local DTM patch
+
+Inspect the selected product's map label and explicitly reproject to the same Mars projected-metre convention. Select a local application coordinate in kilometres:
+
+```bash
+python scripts/prepare_hirise_patch.py HiRISE_DTM_warped_to_WALKBACK.tif data/processed/jezero_hirise_patch.json --center-x-km 0 --center-y-km 0 --size-m 1000 --pixel-size-m 5
+```
+
+This creates a local preview, independent from the 215 m global path solver. The script limits the output to 501 × 501 cells.
+
+## Rebuild figures
 
 ```bash
 python scripts/render_route_figures.py
 ```
 
-The figures show the rover waypoint traverse, selected anchor-to-anchor straight connections and elevation against odometer distance. They are not topographic basemaps or human-safe route certifications.
+The route and elevation SVGs are generated from embedded NASA/JPL waypoints. They are not topographic basemaps or human-safe route certifications.
