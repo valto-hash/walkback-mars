@@ -2,41 +2,40 @@
 
 ## Project summary
 
-Human exploration of Mars requires more than choosing the shortest line on a map. A traverse must balance terrain, life-support resources, shelter access, communications and scientific value. WALKBACK is an interactive browser prototype for exploring these decisions around Jezero Crater.
+Human exploration of Mars requires more than selecting the shortest line on a map. A traverse must balance terrain, consumable resources, shelter access, communications and scientific value. WALKBACK is an interactive browser prototype for exploring those trade-offs around Jezero Crater.
 
-The current app embeds 698 NASA/JPL Mars 2020 Perseverance waypoint records spanning Sol 13–2022. It visualizes the rover traverse and a proposed route between seven selected science-stop anchors. A 261 × 261 terrain grid (~215 m per cell) supports a slope screen and a Dijkstra return-time surface. The walking-time proxy uses Minetti et al.'s slope-cost polynomial with an explicitly unvalidated first-order 0.38-g sensitivity assumption. Users can configure a flat-ground reference speed, remaining life-support time and reserve margin, then compare the modeled return time against a second, user-entered hypothetical warning window. Four map states distinguish whether both budgets pass, only the resource budget passes, only the warning window passes, or neither passes. A user-triggered demonstration clock advances one simulated warning-window minute per real second; this is an accelerated storytelling control, not a solar forecast or radiation-dose model. The app also provides a geometric radio viewshed with assumed antenna heights, a first-person camera, route/elevation summaries, a five-Sol scenario, and Portuguese, English, Spanish and German interface text.
+The app embeds 698 NASA/JPL Mars 2020 Perseverance waypoint records spanning Sol 13–2022. It visualizes the rover traverse and a proposed route between selected science-stop anchors, a 3D terrain view, an elevation profile, slope screening and a modeled return-time surface. The walking-time proxy uses the Minetti Earth treadmill slope-cost polynomial with an explicitly heuristic 0.38-g sensitivity adjustment. It is not calibrated for suited Mars EVA.
 
-An optional import workflow is included for a USGS Astrogeology Jezero DEM mosaic derived from the Mars Reconnaissance Orbiter Context Camera (MRO / CTX). The raw ~87 MB GeoTIFF is not bundled and is not loaded by default. The processing script samples the native ~20 m DEM onto the current ~215 m app grid; this does not preserve 20 m solver resolution and still does not meet the 1–5 m obstacle-screening target in the original challenge brief.
+The advanced panel now accepts independent user-editable time budgets for oxygen, electrical power, thermal control and CO₂ removal. The lowest budget is limiting; a reserve is applied, then science/setup time and breaks/rest are subtracted. Additional scenario controls represent pace, surface category and uncertainty. These are assumptions, not real suit capacities or measured Jezero trafficability values.
+
+Two independent time constraints are shown in four states: both pass, resources only, warning window only, neither. A user-triggered demonstration clock accelerates one simulated minute per real second. It is not solar forecasting, radiation dose or crew-health modelling.
+
+The communications panel combines geometric line of sight with an editable single-hop free-space link-margin approximation. It is not a validated network or hardware link budget.
+
+## Multi-mission data workflows
+
+The app's default embedded layer is the Mars 2020 / Perseverance traverse. Optional import pipelines are prepared for:
+- MRO / CTX Jezero DEM: native source approximately 20 m/pixel, resampled to the current global app grid of approximately 215 m/cell.
+- Mars Odyssey / THEMIS controlled mosaics: qualitative 8-bit visual overlay only, not temperature or radiance.
+- MRO / HiRISE DTM: separate high-resolution local patch preview; it does not alter global pathfinding.
+
+The real source rasters are not bundled or automatically loaded. Their exact product labels, projections, source metadata and coverage must be checked before processing. The current solver remains coarse.
 
 ## Route comparison
 
-The proposed straight-line segments between selected anchors total approximately 12.2 km. The Perseverance odometer records approximately 32.3 km across the corresponding traverse segments. The sum of positive elevation changes between successive selected anchors is approximately 784 m. The +784 m figure is not cumulative ascent across every intermediate rover waypoint. These are route-comparison metrics, not a validated human-walkable route.
-
-## Model and uncertainty
-
-The Minetti polynomial was measured on Earth. The app scales only the slope-related cost difference from the level-ground baseline by 0.38 as a transparent sensitivity assumption. Cavagna et al.'s simulated 0.4-g study motivates considering a lower-gravity walking scenario, but it does not calibrate this slope-cost model for suited Mars EVA. The default 2.5 km/h flat-ground input is illustrative, not a suit specification. See [`MODEL.md`](MODEL.md).
+Straight-line connections between selected anchors and Perseverance odometer distances offer a geometric comparison only. They do not describe a validated human-walkable route or prove obstacle clearance.
 
 ## Current limitations
 
-The default terrain remains procedural outside the rover corridor unless the optional CTX grid is downloaded, processed and loaded. Even after import, the solver grid remains ~215 m. The coarse >30° slope screen cannot identify metre-scale obstacles. There is no soil trafficability, regolith cohesion, loose-sand hazard, solar-energy, dust-opacity, live solar-weather, local radiation-dose or shelter-attenuation layer. The warning interval is manually entered. Radio visibility is geometric rather than a full RF link budget. The walking model is not validated for suited humans at 0.38 g. WALKBACK is a research prototype, not a certified EVA safety system.
-
-## NASA data
-
-- Embedded: [NASA/JPL Mars 2020 Perseverance waypoints](https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json).
-- Optional import: [USGS / MRO CTX Jezero DEM mosaic](https://astrogeology.usgs.gov/search/map/mars_2020_science_investigation_ctx_dem_mosaic), via [`scripts/prepare_ctx_dem.py`](../scripts/prepare_ctx_dem.py).
-- Reference-only sources are listed in [`DATA.md`](DATA.md) and [`CREDITS.md`](../CREDITS.md).
-
-## Five-Sol mission concept
-
-Sol 1 base and delta; Sol 2 Margin Unit; Sol 3 Cheyava Falls and Serpentine Rapids; Sol 4 Pico Turquino and Witch Hazel Hill; Sol 5 return to base without sampling. This is a hypothetical project scenario, not an approved or scheduled NASA crew mission. Instruments, EVA durations, sample counts and masses are proposed assumptions. Recovery of the 10 cached Three Forks sample tubes by a future crew is hypothetical, not an approved mission plan.
+The default terrain outside the rover corridor is procedural until an optional CTX grid is imported. The 215 m global mesh cannot identify 1–5 m hazards. Surface factors are uniform assumptions, not a soil-mechanics model. There is no solar energy model, dust/weather forecast, particle spectrum, local radiation dose, shelter attenuation or radiation-health model. The RF model is simplified. There has been no independent EVA, geotechnical, radiation-protection or communications review. WALKBACK is not a certified astronaut-safety system.
 
 ## Team and participant protection
 
-Guilherme Albernaz Martins Costa is the adult team member. Two additional team members are under 18; their names are intentionally omitted from these public materials in accordance with the NASA Space Apps 2026 Participant Terms. The official registration should be completed through the event system with all guardian requirements followed.
+Public project materials identify the adult team member only and describe two additional team members as under 18. Their names and recognizable media are omitted from public materials. Follow the current official event terms for guardian registration and submission media.
 
 ## AI tools disclosure
 
-ChatGPT (OpenAI) assisted with code review and correction, model-contract tests, technical documentation, data-processing workflow and presentation editing. The team must disclose any additional AI tools actually used and accurately describe their contribution in the official form.
+ChatGPT (OpenAI) assisted with code review and correction, test writing, documentation, data-processing workflow preparation and presentation editing. The team must disclose any additional AI tools actually used and describe their actual contribution in the official form.
 
 ## Repository
 
