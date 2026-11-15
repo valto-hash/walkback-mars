@@ -11,8 +11,6 @@ on:
       - 'manifest.webmanifest'
       - 'service-worker.js'
       - 'assets/walkback-icon.svg'
-      - 'assets/walkback-icon-192.png'
-      - 'assets/walkback-icon-512.png'
       - '.github/workflows/deploy-pages.yml'
 
 permissions:
