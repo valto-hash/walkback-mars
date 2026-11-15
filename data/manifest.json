@@ -28,6 +28,42 @@
       "status": "optional_import_pipeline_ready_not_bundled_or_loaded_by_default",
       "coordinate_reference": "Mars equirectangular; planetocentric latitude; positive-east longitude; radius 3,396,160 m",
       "processing": "Direct Mars planetary-coordinate sampling to 261x261 app grid; no terrestrial EPSG:4326 transform; native ~20 m pixels resampled to ~215 m cells"
+    },
+    {
+      "id": "mro_hirise_jezero_local_dtms",
+      "title": "HiRISE Jezero local digital terrain models",
+      "source": "USGS Astrogeology / NASA MRO HiRISE",
+      "mission": "Mars Reconnaissance Orbiter (MRO)",
+      "instrument": "High Resolution Imaging Science Experiment (HiRISE)",
+      "resolution": "Product-dependent; some DTM products have metre-scale sampling",
+      "link": "https://astrogeology.usgs.gov/search/map/mars_2020_jezero_crater_landing_site_products",
+      "license_or_credit": "Follow the selected USGS/PDS product metadata and cite the individual product team.",
+      "confidence": "Product dependent; requires local source-label and projection verification",
+      "measured_or_derived": "Source DTM elevations are measured/derived product values; WALKBACK patch preview is a separately sampled local extract and does not affect the global solver",
+      "status": "local_patch_importer_ready_no_raster_bundled"
+    },
+    {
+      "id": "mars_odyssey_themis_controlled_visual",
+      "title": "THEMIS controlled visual mosaic (qualitative only)",
+      "source": "USGS Astrogeology / NASA Mars Odyssey",
+      "mission": "Mars Odyssey",
+      "instrument": "Thermal Emission Imaging System (THEMIS)",
+      "resolution": "Product-dependent; controlled global infrared mosaics commonly ~100 m/pixel",
+      "link": "https://stac.astrogeology.usgs.gov/docs/data/mars/themis_controlled_mosaics/",
+      "license_or_credit": "Credit NASA/JPL-Caltech/Arizona State University/USGS as specified by the selected product metadata.",
+      "confidence": "Visual context only for 8-bit controlled mosaics; not a temperature or dose layer",
+      "measured_or_derived": "Input imagery is source imagery; WALKBACK percentile-stretches it to grayscale solely for display",
+      "status": "qualitative_grid_importer_ready_no_raster_bundled",
+      "quantitative_use_allowed": false,
+      "projection_note": "Do not assume the CTX coordinate convention. Verify the exact THEMIS/PDS map label (including aerocentric/planetocentric latitude and positive-east convention), explicitly warp to the app-compatible Mars equirectangular metre grid, then run the processor."
     }
-  ]
+  ],
+  "integrity": {
+    "embedded_waypoints": {
+      "source": "NASA/JPL M20_waypoints.json",
+      "count": 698,
+      "sha256": "d48c984d144bd942a45d1305f8b2267b173042062943686f7c9c9e1c51a701ba",
+      "method": "SHA-256 over JSON.stringify of embedded WP array in index.html; checked by scripts/validate_embedded_data.mjs"
+    }
+  }
 }
